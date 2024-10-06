@@ -1,0 +1,160 @@
+import React, { useEffect, useState } from "react";
+import "./Bookstudent.css";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+
+import one from "./book1.jpeg";
+import two from "./book2.jpg";
+import three from "./book3.jpeg";
+import four from "./book4.jpeg";
+import five from "./book5.jpeg";
+import six from "./book6.jpeg";
+import seven from "./book7.jpeg";
+import eight from "./book8.jpeg";
+import { startloading, stoploading } from "../../../store/auth/authSlice";
+import Loader from "../Loader/Loader";
+
+// const initialBooks = [
+//   {
+//     title: "DIVERSITY & INCLUSION",
+//     img: one,
+//     link: "/diversity-inclusion",
+//   },
+//   {
+//     title: "CUSTOMER COMMITMENT",
+//     img: two,
+//     link: "/customer-commitment",
+//     headings: ["/linkOne", "linkTwo"],
+//   },
+//   {
+//     title: "PEOPLE CENTRIC",
+//     img: three,
+//     link: "/people-centric",
+//     headings: ["/linkOne", "linkTwo"],
+//   },
+//   {
+//     title: "TEAMWORK & COLLABORATION",
+//     img: four,
+//     link: "/teamwork-collaboration",
+//     headings: ["/linkOne", "linkTwo"],
+//   },
+//   {
+//     title: "TRANSPARENCY & ACCOUNTABILITY",
+//     img: five,
+//     link: "/transparency-accountability",
+//     headings: ["/linkOne", "linkTwo"],
+//   },
+//   {
+//     title: "RESPECT",
+//     img: six,
+//     link: "/respect",
+//     headings: ["/linkOne", "linkTwo"],
+//   },
+//   {
+//     title: "INTEGRITY",
+//     img: seven,
+//     link: "/integrity",
+//     headings: ["/linkOne", "linkTwo"],
+//   },
+//   {
+//     title: "PASSION",
+//     img: eight,
+//     link: "/passion",
+//     headings: ["/linkOne", "linkTwo"],
+//   },
+// ];
+
+const Bookstudent = () => {
+  const { isLoggedin, user, isloading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [coreValues, setCoreValues] = useState([]);
+
+  // const [Books, setBooks] = useState([]);
+
+  // Filter core values based on the search term
+  const filteredValues = coreValues.filter((value) =>
+    value.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const year = queryParams.get("year");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(startloading());
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/api/courses/fetchcourses?year=${year}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        setCoreValues(res.data);
+
+        console.log(res);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        dispatch(stoploading());
+      }
+    };
+    fetchData();
+  }, [year]);
+
+  return (
+    <div className="about-us">
+      <div className="header">
+        <h2 className="text-black my-5 text-center">ENGLISH BOOKS</h2>
+      </div>
+
+      {/* Search Bar */}
+      <div className="search-bar">
+        <div className="searchtext">Search</div>
+        <input
+          type="text"
+          placeholder="Search by title..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
+      {/* Core Values */}
+      {isloading ? (
+        <Loader />
+      ) : (
+        <div className="core-values">
+          {filteredValues.map((value, index) => (
+            <Link
+              to={`/${
+                user?.role === "admin" ? "adminMain" : "userMain"
+              }/Courses/BookdDtails/${value._id}`}
+              state={{ Course: value }}
+              key={index}
+            >
+              <article className="card_down" key={index}>
+                {/* Image Link */}
+                <a href={value.link}>
+                  <div className="temporary_text">
+                    <img src={value.image} alt={value.title} />
+                  </div>
+                </a>
+
+                {/* Static Card Content */}
+                <div className="card_content_down">
+                  <span className="card_title_down">{value.title}</span>
+                </div>
+              </article>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Bookstudent;

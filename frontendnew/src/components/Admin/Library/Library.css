@@ -1,0 +1,242 @@
+.library-page {
+  padding: 20px;
+  position: relative;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.add-book-btn {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 12px 24px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-book-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Form overlay */
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.add-book-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-book-form label {
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+.add-book-form input,
+.add-book-form select {
+  padding: 10px;
+  margin-top: 5px;
+  width: 95%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+.add-book-form input[type="file"] {
+  padding: 5px;
+}
+
+.add-book-form input:focus,
+.add-book-form select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.add-book-form button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.add-book-form button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+.add-book-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+}
+
+/* Book Grid & Cards */
+.book-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.book-card {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.book-card:hover {
+  transform: scale(1.05);
+}
+
+.book-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.book-card h3 {
+  margin: 15px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.book-card a {
+  display: block;
+  margin: 10px 0;
+  color: #007bff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.book-card a:hover {
+  color: #0056b3;
+}
+
+.book-card button {
+  margin: 5px 0;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.editdelbtn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #218838;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .book-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .book-card {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .add-book-form {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-book-btn {
+    width: 100%;
+    margin: 0 auto 20px;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .book-card {
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+  }
+
+  .add-book-form {
+    width: 95%;
+  }
+
+  .form-buttons button {
+    font-size: 14px;
+  }
+}

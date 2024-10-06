@@ -1,0 +1,166 @@
+.faculty-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.faculty-page h1 {
+  text-align: center;
+  color: #333;
+}
+
+.add-faculty-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #3498db;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.add-faculty-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Modal Form Styles */
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.faculty-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.faculty-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.faculty-form input {
+  margin: 10px 0;
+  padding: 10px;
+  width: 95%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.addcancelbutton {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2ecc71;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #27ae60;
+}
+
+.cancel-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.cancel-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Faculty Cards */
+.faculty-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.faculty-card {
+  width: 250px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.faculty-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.faculty-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.faculty-degree,
+.faculty-title,
+.faculty-email {
+  font-size: 14px;
+  color: #555;
+}
+
+.delete-btn,
+.edit-btn {
+  margin-top: 15px;
+  padding: 10px;
+  font-size: 14px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+.editdeletebtn{
+  display: flex;
+  justify-content: space-between;
+}
+.edit-btn {
+  background-color: #3498db;
+  margin-left: 10px;
+}
+
+.edit-btn:hover {
+  background-color: #2980b9;
+}

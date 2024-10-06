@@ -1,0 +1,144 @@
+.sidebar-container {
+  display: flex;
+  width: 100%; /* Ensure the container spans full width */
+}
+
+.sidebar {
+  top: 20px;
+  width: 250px; /* Fixed width for sidebar */
+  background-color: rgb(223, 217, 217);
+  color: black;
+  height: auto; /* Let height adjust to the content */
+  padding: 20px;
+  position: sticky; /* Stick below the navbar */
+  left: 10px;
+  box-shadow: 1px 0px 5px rgba(95, 70, 70, 0.1); /* Add shadow */
+  /* overflow-y: auto; Scroll if content overflows */
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+.menu-icon {
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+  color: white;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05);
+}
+
+.profile-name {
+  margin-top: 10px;
+  font-size: 18px;
+  color: Black;
+}
+
+.additional-profile {
+  margin-top: 10px;
+  background-color: #6791e6;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.additional-profile h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.additional-profile p {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  color: white;
+}
+
+.sidebar-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.sidebar-list li {
+  padding: 8px 3px;
+  margin-top: 5px;
+  cursor: pointer;
+  gap: 10px;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.sidebar-list li:hover {
+  border-radius: 5px;
+  background-color: brown;
+  color: white;
+}
+
+.sidebar-list li.active {
+  border-radius: 5px;
+  background-color: green;
+  color: white;
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  font-size: 12px;
+}
+
+.nested-dropdown {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.nested-dropdown li {
+  padding: 8px 0;
+  cursor: pointer;
+  /* color: black; */
+  transition: background-color 0.3s ease;
+}
+
+/* .nested-dropdown li Link {
+  color: black;
+} */
+
+.clr {
+  color: black;
+}
+
+.nested-dropdown li:hover {
+  background-color: brown;
+  color: white;
+}
+
+.nested-dropdown li.active {
+  background-color: green;
+  color: white;
+}
+
+.sidebar.open {
+  transform: translateX(-250px);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 150px;
+  }
+}

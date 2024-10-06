@@ -1,0 +1,320 @@
+
+.achievements-container {
+    padding: 40px;
+    background-color: #f4f6f9;
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  .add-achievement-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 30px;
+  }
+  
+  .add-achievement-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Achievement card layout */
+  .achievement-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    position: relative; /* For positioning delete button */
+    overflow: hidden; /* To ensure delete button stays within card bounds */
+  }
+  
+  /* Delete button for entire card */
+  .achievement-card .delete-card-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .achievement-card .delete-card-btn:hover {
+    background-color: #c82333;
+  }
+  
+  .achievement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .achievement-header h3 {
+    font-size: 20px;
+    margin: 0;
+    color: #333;
+  }
+  
+  .achievement-header p {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  /* Description list styling */
+  .achievement-description {
+    margin: 10px 0;
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  
+  .achievement-description li {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+    position: relative; /* For positioning delete button */
+    padding-right: 30px; /* Space for delete button */
+  }
+  
+  .description-point .delete-point-btn {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    background-color: none;
+    color: black;
+    padding: 3px 6px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .description-point .delete-point-btn:hover {
+    background-color: #c82333;
+  }
+  
+  .achievement-images {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .achievement-images .uploaded-image {
+    position: relative;
+  }
+  
+  .achievement-images img {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+  }
+  
+  .achievement-images .delete-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #dc3545;
+    color: white;
+    padding: 5px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .achievement-images .delete-image-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* Buttons for edit and delete */
+  .card-actions {
+    margin-top: 15px;
+  }
+  
+  .edit-btn {
+    background-color: #ffc107;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-btn:hover {
+    background-color: #e0a800;
+  }
+  
+  /* Modal overlay for the form */
+  .achievement-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  /* Form styling for adding or editing an achievement */
+  .achievement-form {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    max-height: 80vh; /* Set maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    position: relative;
+  }
+  
+  .achievement-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .achievement-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .achievement-form input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  /* Description points container */
+  .description-point {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative; /* For positioning delete button */
+  }
+  
+  .description-point input {
+    flex: 1; /* Allow input to take available space */
+  }
+  
+  .add-point {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom:25px;
+  }
+  
+  .add-point:hover {
+    background-color: #218838;
+  }
+  
+  /* Image upload styling */
+  .image-upload {
+    margin-bottom: 20px;
+  }
+
+  .uploaded-images {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .uploaded-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+ /* For positioning delete button */
+  }
+  
+  .uploaded-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+  }
+  
+  .uploaded-image .delete-image-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height:20px;
+    width:20px;
+    background-color: #dc3545;
+    color: white;
+    padding: 4px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .uploaded-image .delete-image-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* Form actions (Submit and Cancel buttons) */
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .submit {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top:50px;
+  }
+  
+  .submit:hover {
+    background-color: #0056b3;
+  }
+  
+  .cancel {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top:50px;
+  }
+  
+  .cancel:hover {
+    background-color: #c82333;
+  }
+  

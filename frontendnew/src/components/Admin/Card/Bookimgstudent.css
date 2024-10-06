@@ -1,0 +1,183 @@
+.bookcontaine {
+  /* margin-top: 50px; */
+  display: grid;
+  /* justify-content: space-between;
+   */
+  width: 100%;
+
+  grid-template-columns: 10% 90%;
+  /* align-items: flex-start; */
+  /* padding: 20px; */
+  gap: 20px;
+  /* flex-wrap: wrap; */
+}
+
+.image-container {
+  /* flex: 2; */
+  min-width: 100px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.right-container {
+  /* margin-top: 70px; */
+  margin-right: 40px;
+  flex: 1;
+  display: flex;
+  /* flex-direction: column; */
+  /* justify-content: space-between; */
+  min-width: 100%;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  /* text-align: center; */
+}
+/* .course-label {
+    font-size: 16px;
+    margin-bottom: 10px;
+  } */
+
+/* Existing styles remain unchanged */
+
+.course-input {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.links-container {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.link-group {
+  margin-bottom: 15px;
+  width: 400px;
+}
+
+.link-heading {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.link {
+  display: block;
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.button {
+  /* padding: 10px 30px; */
+  font-size: 16px;
+  /* background-color: #007bff; */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 100px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+/* Existing styles remain unchanged */
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+/* Edit button */
+.downloadbutton {
+  background-color: #4caf50; /* Green */
+}
+
+.downloadbutton:hover {
+  background-color: #45a049;
+}
+
+/* Responsive design for tablets (max-width: 768px) */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .image-container {
+    max-width: 100%;
+  }
+
+  .right-container {
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .button-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .button {
+    flex: none;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* Responsive design for small screens (max-width: 480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .image-container {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .course-label {
+    font-size: 14px;
+  }
+
+  .link-heading,
+  .link {
+    font-size: 14px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}

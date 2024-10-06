@@ -14,6 +14,8 @@ const createToken = (res, id) => {
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
+      secure: true, // Ensure it's sent over HTTPS
+      sameSite: "None",
     });
 
     return token;

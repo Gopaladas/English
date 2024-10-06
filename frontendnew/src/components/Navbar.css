@@ -1,0 +1,152 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4267b2; /* RGUKT Theme Color */
+  padding: 10px 20px;
+  z-index: 1;
+}
+
+.navbar-logo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Make the logo circular */
+}
+
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.navbar-toggle .bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+  transition: all 0.3s ease; /* Smooth transition for toggle bars */
+}
+
+.navbar-links {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+}
+
+.navbar-links li {
+  position: relative;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+}
+
+.navbar-links a:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
+  border-radius: 4px;
+  transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+}
+
+.dropdown, .sub-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #4267b2; /* Dropdown Background */
+  display: none;
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
+  border-radius: 4px;
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth dropdown animation */
+  opacity: 0;
+  visibility: hidden;
+}
+
+.navbar-links li:hover > .dropdown,
+.navbar-links li:hover > .sub-dropdown {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.sub-dropdown {
+  left: 100%;
+  top: 0;
+  background-color: #0056b3; /* Slightly darker background for sub-dropdown */
+  padding: 5px 0;
+}
+
+.sub-dropdown a {
+  padding: 5px 15px;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+}
+
+.sub-dropdown a:hover {
+  background-color: #0080ff; /* Sub-dropdown hover effect */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .navbar-toggle {
+    display: flex;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #004080;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in;
+  }
+
+  .navbar-links.active {
+    max-height: 500px; /* Adjust this to fit content */
+  }
+
+  .navbar-links li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .dropdown {
+    position: static;
+    padding-left: 0; /* Align dropdowns properly */
+    margin-top: 10px; /* Space between dropdowns */
+    display: none; /* Initially hide the dropdown */
+  }
+
+  .navbar-links li > .dropdown {
+    display: block; /* Show dropdown when active */
+  }
+
+  .sub-dropdown {
+    position: static;
+    padding-left: 20px; /* Indent sub-dropdowns */
+    margin-top: 10px; /* Space between sub-dropdowns */
+  }
+
+  .logout-button {
+    text-align: center;
+    background-color: #0080ff; /* Logout button color */
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover */
+  }
+
+  .logout-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
+}

@@ -1,0 +1,16 @@
+.footer {
+  background-color: #2b4c6d; /* Dark gray background */
+  color: white; /* White text */
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer p {
+  margin: 0;
+}

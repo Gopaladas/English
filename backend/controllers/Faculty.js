@@ -74,7 +74,7 @@ const facultyLogout = async (req, res) => {
 const facultydetails = async (req, res) => {
   try {
     const response = await Faculty.find({});
-    console.log(response);
+    // console.log(response);
     if (!response) {
       res.status(400).json({
         success: false,
@@ -84,7 +84,7 @@ const facultydetails = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: response,
+      data: response,
     });
   } catch (error) {
     res.status(401).json({
@@ -108,18 +108,12 @@ const updateFaculty = async (req, res) => {
   console.log(req.body);
 
   try {
-    const {
-      name,
-      designation,
-      bio,
-      email,
-      phone,
-      qualification,
-      awards,
-      achievements,
-      contributions,
-      specialization,
-    } = req.body;
+    const { name, designation, bio, email, phone, qualification } = req.body;
+
+    const awards = JSON.parse(req.body.awards);
+    const achievements = JSON.parse(req.body.achievements);
+    const contributions = JSON.parse(req.body.contributions);
+    const specialization = JSON.parse(req.body.specialization);
 
     let id = req.user.id;
 
@@ -137,7 +131,7 @@ const updateFaculty = async (req, res) => {
 
     const isSupported = checkimgValidity(type, supportedTypes);
     const isResumeSupported = checkimgValidity(resumeType, resumesupportTypes);
-
+    console.log(isSupported, isResumeSupported);
     if (!isSupported) {
       return res.status(400).json({
         success: false,
@@ -184,19 +178,66 @@ const updateFaculty = async (req, res) => {
     );
     console.log("faculty : ", faculty);
     if (!faculty) {
-      return res.status(404).json({ message: "Faculty not updated" });
+      return res.json({ message: "Faculty not updated" });
     }
 
-    return res.status(201).json({
+    return res.json({
       success: true,
       message: "faculty details updated successfully",
     });
   } catch (error) {
-    res.status(400).json({
+    res.json({
       success: false,
       message: "error while updating the faculty",
     });
   }
 };
 
-export { facultyLogin, facultyLogout, facultydetails, updateFaculty };
+const eachfacultydetails = async (req, res) => {
+  try {
+    const facultyid = req.params.id;
+    console.log(facultyid);
+    const existfaculty = await Faculty.findById(facultyid).select("-password");
+    console.log(existfaculty);
+    if (!existfaculty) {
+      return res.status(400).json({
+        success: false,
+        message: "Faculty does not exist",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: {
+        id: existfaculty?._id,
+        name: existfaculty?.name,
+        email: existfaculty?.email,
+        designation: existfaculty?.designation,
+        imageUrl: existfaculty?.imageUrl,
+        resumeUrl: existfaculty?.resumeUrl,
+        bio: existfaculty?.bio,
+        phone: existfaculty?.phone,
+        qualification: existfaculty?.qualification,
+        awards: existfaculty?.awards,
+        achievements: existfaculty?.achievements,
+        contributions: existfaculty?.contributions,
+        specialization: existfaculty?.specialization,
+        role: "user",
+        isFaculty: true,
+      },
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: "error while fetching the data",
+    });
+  }
+};
+
+export {
+  facultyLogin,
+  facultyLogout,
+  facultydetails,
+  updateFaculty,
+  eachfacultydetails,
+};

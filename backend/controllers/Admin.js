@@ -25,7 +25,7 @@ const createAdmin = async (req, res) => {
       .json({ success: false, message: "Alredy the admin is exist" });
   }
 
-  if (anyAdmin) {
+  if (anyAdmin.length > 0) {
     return res.status(400).json({
       success: false,
       message: "The admin exist ,we can't create another admin",
@@ -65,13 +65,19 @@ const createAdmin = async (req, res) => {
 
 const adminLogin = async (req, res) => {
   try {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
+    const { email, password } = req.body;
+    console.log("login : ", email, password);
+    if (!email || !password) {
       return res.status(400).json({ message: "Please fill in all fields" });
     }
 
-    const existUser = await Admin.findOne({ username });
+    let existUser = await Faculty.findOne({ email });
+    let role = "user";
+
+    if (!existUser) {
+      existUser = await Admin.findOne({ email });
+      role = "admin";
+    }
 
     if (existUser) {
       const isValidPassword = await bcrypt.compare(
@@ -81,30 +87,31 @@ const adminLogin = async (req, res) => {
 
       if (isValidPassword) {
         const token = createToken(res, existUser._id);
-        res.status(201).json({
-          success: true,
-          message: {
-            username: username,
+        res.json({
+          isLoggedIn: true,
+          user: {
+            id: existUser._id,
+            username: existUser.username,
             email: existUser.email,
-            isAdmin: true,
+            role: role,
             token: token,
           },
         });
       } else {
         res.status(400).json({
-          success: false,
+          isLoggedIn: false,
           message: "Invalid password",
         });
       }
     } else {
       res.status(400).json({
-        success: false,
-        message: "Admin not exist",
+        isLoggedIn: false,
+        message: "not exist",
       });
     }
   } catch (error) {
     res.status(400).json({
-      success: false,
+      isLoggedIn: false,
       message: "login unsuccessfull",
     });
   }
@@ -115,35 +122,50 @@ const adminLogout = async (req, res) => {
     // Clear the "token" cookie
     res.clearCookie("token", {
       httpOnly: true,
-      sameSite: "strict",
+      secure: true, // Ensure it's sent over HTTPS
+      sameSite: "None",
+      // sameSite: "strict",
+      path: "/",
     });
-
+    console.log("logout");
     // Send a success response
-    res.status(200).json({ success: true, message: "Logged out successfully" });
+    res
+      .status(200)
+      .json({ isLoggedIn: false, message: "Logged out successfully" });
   } catch (error) {
     console.error("Error during logout:", error);
-    res.status(500).json({ success: false, message: "Logout not successful" });
+    res
+      .status(500)
+      .json({ isLoggedIn: true, message: "Logout not successful" });
   }
 };
 
 const admindata = async (req, res) => {
   try {
-    // console.log("req_id", req.user);
+    console.log("req_id", req.user);
     let admin = await Admin.findById(req.user.id).select("-password");
-    console.log(admin);
+    console.log("hey", admin);
     if (!admin) {
       return res.status(401).json({
         success: false,
         message: "Admin not found",
       });
     }
-    res.status(201).json({
+    res.json({
       success: true,
-      message: {
-        id: admin._id,
-        username: admin.username,
+      user: {
+        id: admin?._id,
+        username: admin?.username,
+        awards: admin?.awards,
+        achievements: admin?.achievements,
+        contributions: admin?.contributions,
+        specialization: admin?.specialization,
+        bio: admin?.bio,
+        imageUrl: admin?.imageUrl,
+        resumeUrl: admin?.resumeUrl,
         isAdmin: true,
-        email: admin.email,
+        email: admin?.email,
+        role: "admin",
       },
     });
   } catch (error) {
@@ -207,25 +229,18 @@ const updateAdmin = async (req, res) => {
   try {
     const id = req.user.id;
     console.log(id);
-    const {
-      username,
-      designation,
-      bio,
-      email,
-      phone,
-      qualification,
-      awards,
-      achievements,
-      contributions,
-      specialization,
-    } = req.body;
+    const { name, designation, bio, email, phone, qualification } = req.body;
 
-    // console.log("req :", req);
+    console.log("req :", req.body);
+    const awards = JSON.parse(req.body.awards);
+    const achievements = JSON.parse(req.body.achievements);
+    const contributions = JSON.parse(req.body.contributions);
+    const specialization = JSON.parse(req.body.specialization);
 
     const adminImg = req.files?.imageUrl;
     const resumeUrl = req.files?.resumeUrl;
 
-    // console.log(adminImg, resumeUrl);
+    console.log(adminImg, resumeUrl);
 
     const supportedTypes = ["jpeg", "jpg", "png", "webp"];
     const resumesupportTypes = ["pdf"];
@@ -249,15 +264,15 @@ const updateAdmin = async (req, res) => {
         message: "Invalid resume type",
       });
     }
-
-    const image_res = await uploadImgToCloud(adminImg, "/admin");
-    const resume_res = await uploadImgToCloud(resumeUrl, "/admin");
-    // console.log(image_res, resume_res);
+    console.log(isResumeSupported, isSupported);
+    const image_res = await uploadImgToCloud(adminImg, "/adminimage");
+    const resume_res = await uploadImgToCloud(resumeUrl, "/adminimage");
+    console.log(image_res.secure_url, resume_res.secure_url);
     const admin = await Admin.findByIdAndUpdate(
       id,
       {
         $set: {
-          username: username,
+          username: name,
           designation: designation,
           imageUrl: image_res.secure_url,
           bio: bio,
@@ -283,7 +298,7 @@ const updateAdmin = async (req, res) => {
       return res.status(404).json({ message: "Admin not updated" });
     }
 
-    // console.log(admin);
+    console.log(admin);
     return res.status(201).json({
       success: true,
       message: "Admin details updated successfully",
@@ -299,7 +314,7 @@ const updateAdmin = async (req, res) => {
 const createFaculty = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
+    console.log(req.body);
     // Ensure all required fields are present
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -354,7 +369,7 @@ const eachfacultydetails = async (req, res) => {
   try {
     const facultyid = req.params.id;
     console.log(facultyid);
-    const existfaculty = await Faculty.findById(facultyid);
+    const existfaculty = await Faculty.findById(facultyid).select("-password");
     console.log(existfaculty);
     if (!existfaculty) {
       return res.status(400).json({
@@ -365,8 +380,7 @@ const eachfacultydetails = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: {
-        id: facultyid,
+      data: {
         existfaculty,
       },
     });
