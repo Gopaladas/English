@@ -47,7 +47,7 @@ const LoginForm = () => {
         "https://english-ivory.vercel.app/api/admin/adminlogin",
         logindata,
         {
-          withCredentials: true,
+          withCredentials: false,
         }
       );
 
