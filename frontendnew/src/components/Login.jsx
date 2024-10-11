@@ -48,11 +48,7 @@ const LoginForm = () => {
         logindata,
         {
           withCredentials: true,
-           headers: {
-          'Content-Type': 'application/json', // Specify the content type
-          'Accept': 'application/json', // Specify the response format
-          // Add other headers if required
-        },
+           
         }
       );
 
@@ -80,10 +76,7 @@ const LoginForm = () => {
           "https://english-ivory.vercel.app/api/admin/isLoggedIn",
           {
             withCredentials: true,
-            headers: {
-            'Accept': 'application/json',
-            // Add other headers if required
-          },
+
           }
         );
         console.log(response?.data?.user?.role);
