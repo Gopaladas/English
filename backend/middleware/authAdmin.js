@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-const checkToken = async (req, res, next) => {
+const checkToken =  (req, res, next) => {
   try {
     const token = req.cookies.token;
     console.log("token", token);
