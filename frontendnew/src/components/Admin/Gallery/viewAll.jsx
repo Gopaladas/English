@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./ViewAll.css"; // Assuming you create a CSS file for styling
+import "./viewAll.css"; // Assuming you create a CSS file for styling
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import { startloading, stoploading } from "../../../store/auth/authSlice";
