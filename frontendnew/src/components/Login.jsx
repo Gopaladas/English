@@ -45,14 +45,8 @@ const LoginForm = () => {
     try {
       const response = await axios.post(
         "https://english-ivory.vercel.app/api/admin/adminlogin",
-        logindata,
-        {
-          withCredentials: true,
-          headers:{
-            "Content-Type":"application/json",
-            accept:"application/json",
-          }
-        }
+        logindata
+        
       );
 
       setNewData(response);
@@ -76,28 +70,15 @@ const LoginForm = () => {
       dispatch(startloading());
       try {
         const response = await axios.get(
-          "https://english-ivory.vercel.app/api/admin/isLoggedIn",
-          {
-            withCredentials: true,
-            headers:{
-              "Content-Type":"application/json",
-              accept:"application/json",
-            }
-          }
+          "https://english-ivory.vercel.app/api/admin/isLoggedIn"
         );
         console.log(response?.data?.user?.role);
         // Ensure the user data is what you're expecting
         if (response?.data && response?.data?.user) {
           if (response?.data?.user?.role === "admin") {
             const res = await axios.get(
-              `https://english-ivory.vercel.app/api/admin/admindata`,
-              {
-                withCredentials: true,
-                headers:{
-                  "Content-Type":"application/json",
-                  accept:"application/json",
-                }
-              }
+              `https://english-ivory.vercel.app/api/admin/admindata`
+             
             );
 
             console.log(res);
@@ -107,14 +88,8 @@ const LoginForm = () => {
             navigate("/adminMain");
           } else {
             const res = await axios.get(
-              `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`,
-              {
-                withCredentials: true,
-                headers:{
-                  "Content-Type":"application/json",
-                  accept:"application/json",
-                }
-              }
+              `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`
+
             );
             console.log(res);
             dispatch(loggedIn(res.data.user));
