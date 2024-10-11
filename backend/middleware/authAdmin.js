@@ -17,7 +17,7 @@ const checkToken = async (req, res, next) => {
     console.log(req.user);
     next();
   } catch (err) {
-    res.json({ isLoggedIn: false, message: "Token is not valid" });
+    return res.json({ isLoggedIn: false, message: "Token is not valid" });
   }
 };
 
