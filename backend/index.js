@@ -21,7 +21,7 @@ app.use(
 );
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
-
+app.options("*", cors());
 //connectDB
 import connectDB from "./config/db.js";
 connectDB();
