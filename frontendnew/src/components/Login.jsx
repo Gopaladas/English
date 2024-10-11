@@ -48,6 +48,11 @@ const LoginForm = () => {
         logindata,
         {
           withCredentials: true,
+           headers: {
+          'Content-Type': 'application/json', // Specify the content type
+          'Accept': 'application/json', // Specify the response format
+          // Add other headers if required
+        },
         }
       );
 
