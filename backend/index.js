@@ -15,6 +15,8 @@ app.use(
   cors({
     origin: frontendUrl, // Only allow requests from this origin
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], 
   })
 );
 app.use(express.json());
