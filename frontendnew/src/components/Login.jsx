@@ -48,7 +48,10 @@ const LoginForm = () => {
         logindata,
         {
           withCredentials: true,
-           
+          headers:{
+            "Content-Type":"application/json",
+            accept:"application/json",
+          }
         }
       );
 
@@ -76,7 +79,10 @@ const LoginForm = () => {
           "https://english-ivory.vercel.app/api/admin/isLoggedIn",
           {
             withCredentials: true,
-
+            headers:{
+              "Content-Type":"application/json",
+              accept:"application/json",
+            }
           }
         );
         console.log(response?.data?.user?.role);
@@ -87,6 +93,10 @@ const LoginForm = () => {
               `https://english-ivory.vercel.app/api/admin/admindata`,
               {
                 withCredentials: true,
+                headers:{
+                  "Content-Type":"application/json",
+                  accept:"application/json",
+                }
               }
             );
 
@@ -100,6 +110,10 @@ const LoginForm = () => {
               `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`,
               {
                 withCredentials: true,
+                headers:{
+                  "Content-Type":"application/json",
+                  accept:"application/json",
+                }
               }
             );
             console.log(res);
