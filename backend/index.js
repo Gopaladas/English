@@ -27,6 +27,7 @@ app.use(
     origin: [frontendUrl],
     credentials: true, 
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+    optionsSuccessStatus: 200,
   })
 );
 
