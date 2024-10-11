@@ -9,7 +9,7 @@ dotenv.config();
 app.use(cookieParser());
 
 //app instance
-const frontendUrl = "http://localhost:5173"; // Your frontend URL
+const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
 
 app.use(
   cors({
