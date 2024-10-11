@@ -19,7 +19,7 @@ const ProfileName = ({ user }) => (
     </p>
     <Link
       to={
-        user.role === "admin"
+        user?.role === "admin"
           ? "/adminMain/profileupdate"
           : "/userMain/profileupdate"
       }
@@ -278,7 +278,7 @@ const Sidebar = ({ setActiveSection }) => {
             onClick={() => handleSectionClick("Achievements")}
             className={activeItem === "Achievements" ? "active" : ""}
           >
-            <Link to={"/achievemtsAdmin"} className="clr">
+            <Link to={"/achivements"} className="clr">
               Achievements
             </Link>
           </li>
@@ -300,7 +300,7 @@ const Sidebar = ({ setActiveSection }) => {
             onClick={() => handleSectionClick("English")}
             className={activeItem === "English" ? "active" : ""}
           >
-            <Link to={"/CompetitiveEnglishAdmin"}>Competitive English</Link>
+            <Link to={"/english"}>Competitive English</Link>
           </li>
           <li
             onClick={() => handleSectionClick("Gallery")}

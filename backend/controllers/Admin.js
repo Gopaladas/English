@@ -225,6 +225,13 @@ async function uploadImgToCloud(adminimg, path) {
   return await cloudinary.uploader.upload(adminimg.tempFilePath, options);
 }
 
+async function uploadPdfToCloud(adminPdf, path) {
+  const options = { path };
+  adminPdf.resource_type = "raw";
+  adminPdf.sign_url = true;
+  return await cloudinary.uploader.upload(adminPdf.tempFilePath, options);
+}
+
 const updateAdmin = async (req, res) => {
   try {
     const id = req.user.id;
@@ -266,7 +273,7 @@ const updateAdmin = async (req, res) => {
     }
     console.log(isResumeSupported, isSupported);
     const image_res = await uploadImgToCloud(adminImg, "/adminimage");
-    const resume_res = await uploadImgToCloud(resumeUrl, "/adminimage");
+    const resume_res = await uploadPdfToCloud(resumeUrl, "/adminimage");
     console.log(image_res.secure_url, resume_res.secure_url);
     const admin = await Admin.findByIdAndUpdate(
       id,
@@ -362,6 +369,20 @@ const createFaculty = async (req, res) => {
       success: false,
       message: "Error while creating the faculty",
     });
+  }
+};
+
+const deleteFaculty = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const faculty = await Faculty.findByIdAndDelete({ _id: id });
+    console.log(faculty);
+    return res.json({ success: true, message: "faculty deleted successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "error while deleting" });
   }
 };
 
@@ -546,6 +567,28 @@ const imagesData = async (req, res) => {
   }
 };
 
+const singleEventData = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const data = await Gallery.findById({ _id: id });
+
+    if (!data) {
+      return res.json({
+        success: false,
+        message: "no data found",
+      });
+    }
+
+    return res.json({ success: true, data: data });
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: "error while fetching the data",
+    });
+  }
+};
+
 export {
   createAdmin,
   adminLogin,
@@ -558,4 +601,6 @@ export {
   uploadImages,
   addImages,
   imagesData,
+  deleteFaculty,
+  singleEventData,
 };

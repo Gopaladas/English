@@ -1,45 +1,20 @@
+// src/components/ImageGallery.js
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-// const images = [
-//   {
-//     id: 1,
-//     src: "https://via.placeholder.com/300x200.png?text=Image+1",
-//     alt: "Image 1",
-//   },
-//   {
-//     id: 2,
-//     src: "https://via.placeholder.com/300x200.png?text=Image+2",
-//     alt: "Image 2",
-//   },
-//   {
-//     id: 3,
-//     src: "https://via.placeholder.com/300x200.png?text=Image+3",
-//     alt: "Image 3",
-//   },
-//   {
-//     id: 4,
-//     src: "https://via.placeholder.com/300x200.png?text=Image+4",
-//     alt: "Image 4",
-//   },
-//   {
-//     id: 5,
-//     src: "https://via.placeholder.com/300x200.png?text=Image+5",
-//     alt: "Image 5",
-//   },
-//   {
-//     id: 6,
-//     src: "https://via.placeholder.com/300x200.png?text=Image+6",
-//     alt: "Image 6",
-//   },
-// ];
+import { startloading, stoploading } from "../store/auth/authSlice";
+import Loader from "./Admin/Loader/Loader";
 
 const ImageGallery = () => {
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [imagesData, setImagesData] = useState([]);
+
+  // State for modal
+  const [modalImage, setModalImage] = useState(null);
 
   const handleUpload = () => {
     navigate("/adminMain/uploadImage");
@@ -56,6 +31,18 @@ const ImageGallery = () => {
   const handleAdd = (id) => {
     navigate(`/adminMain/uploadImage/${id}`);
   };
+
+  const handleView = (imageUrl) => {
+    setModalImage(imageUrl);
+  };
+
+  const handleViewAll = (id) => {
+    navigate(`/gallery/viewAll/${id}`);
+  };
+  const handleClose = () => {
+    setModalImage(null);
+  };
+
   useEffect(() => {
     if (isLoggedIn) {
       console.log(user);
@@ -65,6 +52,7 @@ const ImageGallery = () => {
 
     const fetchGallery = async () => {
       try {
+        dispatch(startloading());
         const res = await axios.get(
           "http://localhost:3000/api/admin/imagesdata",
           {
@@ -75,61 +63,112 @@ const ImageGallery = () => {
         setImagesData(res.data.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        dispatch(stoploading());
       }
     };
 
     fetchGallery();
-  }, [isLoggedIn, user]);
+  }, [isLoggedIn, user, dispatch]);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8">Image Gallery</h1>
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">
+        Image Gallery
+      </h1>
+
+      {/* Admin Upload Button */}
       {user?.role === "admin" && (
-        <button
-          type="button"
-          onClick={handleUpload}
-          className="h-[50px] w-[100px] bg-green-500 rounded my-[20px]"
-        >
-          Upload
-        </button>
+        <div className="flex justify-center mb-6">
+          <button
+            type="button"
+            onClick={handleUpload}
+            className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded shadow-lg transition-colors duration-300"
+          >
+            Upload Image
+          </button>
+        </div>
       )}
 
-      <button
-        type="button"
-        onClick={handleBack}
-        className="h-[50px] w-[100px] bg-blue-500 rounded my-[20px]"
-      >
-        Back
-      </button>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {imagesData?.map((image) => (
-          <div
-            key={image._id}
-            className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
-          >
-            <div className="flex flex-wrap gap-2 justify-center">
-              {image?.images.map((item, idx) => (
-                <img
-                  key={idx}
-                  src={item}
-                  alt={`image-${idx}`}
-                  className="w-[48%] h-[150px] object-cover rounded-md"
-                />
-              ))}
-            </div>
-            {user?.role === "admin" && (
-              <button
-                className="h-[50px] w-[100px] bg-red-500 rounded my-[20px]"
-                onClick={() => handleAdd(image._id)}
-              >
-                Add
-              </button>
-            )}
-
-            {/* <p className="text-center mt-2 font-semibold">{image.alt}</p> */}
-          </div>
-        ))}
+      {/* Back Button */}
+      <div className="flex justify-center mb-6">
+        <button
+          type="button"
+          onClick={handleBack}
+          className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded shadow-lg transition-colors duration-300"
+        >
+          Back
+        </button>
       </div>
+
+      {/* Loader */}
+      {isloading ? (
+        <Loader />
+      ) : (
+        <div className="flex flex-wrap justify-center gap-6">
+          {imagesData?.map((image) => (
+            <div
+              key={image._id}
+              className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
+              style={{ width: "300px", height: "400px" }} // Fixed card size
+            >
+              {/* Image Grid */}
+              <div className="flex-1 p-4 overflow-hidden">
+                <div className="grid grid-cols-2 gap-2 h-full">
+                  {image?.images.map((item, idx) => (
+                    <img
+                      key={idx}
+                      src={item}
+                      alt={`image-${idx}`}
+                      className="w-full h-40 object-cover rounded-md cursor-pointer"
+                      onClick={() => handleView(item)}
+                      loading="lazy" // Lazy loading for performance
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Add Button for Admin */}
+              {user?.role === "admin" && (
+                <div className="flex justify-center mb-4">
+                  <button
+                    className="px-5 py-2 bg-red-500 hover:bg-blue-600 text-white font-semibold rounded shadow-lg transition-colors duration-300"
+                    onClick={() => handleAdd(image._id)}
+                  >
+                    Add Image
+                  </button>
+                  <button
+                    className="px-5 py-2 bg-green-500 hover:bg-blue-600 text-white font-semibold rounded shadow-lg transition-colors duration-300"
+                    onClick={() => handleViewAll(image._id)}
+                  >
+                    View All
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Modal */}
+      {modalImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg overflow-hidden relative max-w-3xl w-full mx-4">
+            <button
+              className="absolute top-4 right-4 text-gray-600 font-bold text-2xl"
+              onClick={handleClose}
+              aria-label="Close Modal"
+            >
+              &times;
+            </button>
+            <img
+              src={modalImage}
+              alt="Enlarged view"
+              className="w-full h-auto object-contain"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

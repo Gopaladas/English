@@ -32,12 +32,16 @@ import AdminRoutes from "./routes/adminroutes.js";
 import FacultyRoutes from "./routes/facultyroutes.js";
 import CourseRoutes from "./routes/coursesRoutes.js";
 import LibraryRoutes from "./routes/libraryRoutes.js";
+import AchievementRoutes from "./routes/acieveRoutes.js";
+import CERoutes from "./routes/ceroutes.js";
 // import GalleryRoutes from "./routes/galleryroutes.js";
 
 app.use("/api/admin", AdminRoutes);
 app.use("/api/faculty", FacultyRoutes);
 app.use("/api/courses", CourseRoutes);
 app.use("/api/library", LibraryRoutes);
+app.use("/api/achivement", AchievementRoutes);
+app.use("/api/ce", CERoutes);
 // app.use("/api/gallery")
 
 //port setup

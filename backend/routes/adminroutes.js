@@ -16,6 +16,8 @@ import {
   uploadImages,
   addImages,
   imagesData,
+  deleteFaculty,
+  singleEventData,
 } from "../controllers/Admin.js";
 
 import authadmin from "../middleware/authAdmin.js";
@@ -31,6 +33,8 @@ Router.post("/updateAdmin", authadmin, updateAdmin);
 Router.post("/uploadimages", authadmin, uploadImages);
 Router.post("/addimages/:id", authadmin, addImages);
 Router.get("/imagesdata", imagesData);
+Router.delete("/deletefaculty/:id", authadmin, deleteFaculty);
+Router.get("/singleEventData/:id", singleEventData);
 // Backend - Check login status route
 
 Router.get("/isLoggedIn", authadmin, async (req, res) => {

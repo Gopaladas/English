@@ -4,10 +4,12 @@ import "./FacultyList.css";
 import FacultyCard from "./FacultyCard";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { startloading, stoploading } from "../../../store/auth/authSlice";
+import Loader from "../Loader/Loader";
 
 const FacultyList = () => {
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
-
+  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [faculty, setFaculty] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -25,6 +27,7 @@ const FacultyList = () => {
   // Fetch faculty data from the backend
   useEffect(() => {
     const fetchFacultyData = async () => {
+      dispatch(startloading());
       try {
         const response = await axios.get(
           "http://localhost:3000/api/faculty/facultydetails",
@@ -39,6 +42,8 @@ const FacultyList = () => {
         // console.log("Hi : ", faculty);
       } catch (error) {
         console.error("Error fetching faculty data:", error);
+      } finally {
+        dispatch(stoploading());
       }
     };
 
@@ -50,10 +55,20 @@ const FacultyList = () => {
   // Handle deleting faculty from the backend
   const handleDelete = async (index) => {
     const facultyToDelete = faculty[index];
+    console.log(facultyToDelete);
     try {
-      await axios.delete(`/api/admin/${facultyToDelete._id}`); // Adjust API endpoint
-      const updatedFaculty = faculty.filter((_, i) => i !== index);
-      setFaculty(updatedFaculty);
+      const res = await axios.delete(
+        `http://localhost:3000/api/admin/deletefaculty/${facultyToDelete._id}`,
+        {
+          withCredentials: true,
+        }
+      ); // Adjust API endpoint
+      console.log(res);
+      if (res.data.success === true) {
+        console.log(res);
+        const updatedFaculty = faculty.filter((_, i) => i !== index);
+        setFaculty(updatedFaculty);
+      }
     } catch (error) {
       console.error("Error deleting faculty:", error);
     }
@@ -101,6 +116,7 @@ const FacultyList = () => {
     e.preventDefault();
 
     try {
+      dispatch(startloading());
       const data = {
         name: newFaculty.name,
         email: newFaculty.email,
@@ -119,7 +135,11 @@ const FacultyList = () => {
       if (res?.data?.success) {
         setCreated(true);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(stoploading());
+    }
 
     setNewFaculty({
       name: "",
@@ -200,16 +220,20 @@ const FacultyList = () => {
         </div>
       )}
 
-      <div className="faculty-cards">
-        {faculty.map((member, index) => (
-          <FacultyCard
-            key={index}
-            faculty={member}
-            onDelete={() => handleDelete(index)}
-            onInfo={() => handleInfo(index)}
-          />
-        ))}
-      </div>
+      {isloading ? (
+        <Loader />
+      ) : (
+        <div className="faculty-cards">
+          {faculty.map((member, index) => (
+            <FacultyCard
+              key={index}
+              faculty={member}
+              onDelete={() => handleDelete(index)}
+              onInfo={() => handleInfo(index)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

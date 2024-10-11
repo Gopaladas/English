@@ -104,6 +104,12 @@ async function uploadImgToCloud(facultyimg, path) {
   return await cloudinary.uploader.upload(facultyimg.tempFilePath, options);
 }
 
+async function uploadPdfToCloud(facultyPdf, path) {
+  const options = { path };
+  facultyPdf.resource_type = "raw";
+  facultyPdf.sign_url = true;
+  return await cloudinary.uploader.upload(facultyPdf.tempFilePath, options);
+}
 const updateFaculty = async (req, res) => {
   console.log(req.body);
 
@@ -147,7 +153,7 @@ const updateFaculty = async (req, res) => {
     }
 
     const image_res = await uploadImgToCloud(facultyimg, "/faculty");
-    const resume_res = await uploadImgToCloud(facultyresume, "/faculty");
+    const resume_res = await uploadPdfToCloud(facultyresume, "/faculty");
 
     console.log("img : ", image_res?.secure_url);
     console.log("resume : ", resume_res?.secure_url);

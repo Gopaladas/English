@@ -136,17 +136,32 @@ const Bookstudent = () => {
               state={{ Course: value }}
               key={index}
             >
-              <article className="card_down" key={index}>
-                {/* Image Link */}
-                <a href={value.link}>
-                  <div className="temporary_text">
-                    <img src={value.image} alt={value.title} />
-                  </div>
-                </a>
+              <article className="custom-card" key={index}>
+                {/* Card Image */}
+                <div className="card-image-container">
+                  <img
+                    className="card-image"
+                    src={value.image}
+                    alt={value.title}
+                  />
+                </div>
 
-                {/* Static Card Content */}
-                <div className="card_content_down">
-                  <span className="card_title_down">{value.title}</span>
+                {/* Card Content */}
+                <div className="card-content">
+                  <h2 className="card-title">{value.title}</h2>
+                  <p className="card-description">{value.description}</p>
+                </div>
+
+                {/* CTA Link */}
+                <div className="card-link-container">
+                  <a
+                    className="card-link"
+                    href={value.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn More
+                  </a>
                 </div>
               </article>
             </Link>

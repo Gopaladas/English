@@ -1,10 +1,11 @@
 import React from "react";
 import "./FacultyList.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const FacultyCard = ({ faculty, onDelete, onInfo }) => {
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
 
+  const dispatch = useDispatch();
   return (
     <div className="faculty-card">
       <img
