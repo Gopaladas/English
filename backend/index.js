@@ -6,22 +6,33 @@ import fileUpload from "express-fileupload";
 const app = express();
 
 dotenv.config();
+
+const corsConfig = {
+  origin : "*",
+  credential : true,
+  methods : ["GET","POST","PUT","DELETE"],
+}
+
+app.options("",cors(corsConfig));
+
+app.use(cors(corsConfig));
+
 app.use(cookieParser());
 
 //app instance
 const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
 
-app.use(
-  cors({
-    origin: frontendUrl, // Only allow requests from this origin
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], 
-  })
-);
+// app.use(
+//   cors({
+//     origin: "*",
+//     credentials: true, 
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+//     allowedHeaders: ["Content-Type", "Authorization"], 
+//   })
+// );
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
-app.options("*", cors());
+
 //connectDB
 import connectDB from "./config/db.js";
 connectDB();
