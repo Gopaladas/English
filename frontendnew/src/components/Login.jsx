@@ -75,6 +75,10 @@ const LoginForm = () => {
           "https://english-ivory.vercel.app/api/admin/isLoggedIn",
           {
             withCredentials: true,
+            headers: {
+            'Accept': 'application/json',
+            // Add other headers if required
+          },
           }
         );
         console.log(response?.data?.user?.role);
