@@ -41,16 +41,16 @@ Router.get("/isLoggedIn", authadmin, async (req, res) => {
   const { id } = req.user;
   console.log(id);
   try {
-    let existUser = await Faculty.findById({ _id: id });
+    let existUser = await Faculty.findById(id);
     let role = "user";
     // console.log("faculty : ", existUser);
     if (!existUser) {
-      existUser = await Admin.findById({ _id: id }).select("-password");
+      existUser = await Admin.findById(id).select("-password");
       role = "admin";
     }
     // console.log("Admin : ", existUser);
     if (existUser) {
-      res.json({
+     return res.json({
         isLoggedIn: true,
         user: {
           id: existUser._id,
@@ -61,12 +61,12 @@ Router.get("/isLoggedIn", authadmin, async (req, res) => {
       });
     } else {
       // If no user is found, return a response indicating the user is not logged in
-      res.json({ isLoggedIn: false });
+     return res.json({ isLoggedIn: false });
     }
   } catch (error) {
     console.log(error);
     // debugging
-    res.status(500).json({ error: "Server error. Please try again later." });
+   return res.status(500).json({ error: "Server error. Please try again later." });
   }
 });
 
