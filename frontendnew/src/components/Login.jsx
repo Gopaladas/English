@@ -46,7 +46,9 @@ const LoginForm = () => {
       const response = await axios.post(
         "https://english-ivory.vercel.app/api/admin/adminlogin",
         logindata,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
 
       setNewData(response);
