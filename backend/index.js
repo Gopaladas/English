@@ -7,29 +7,29 @@ const app = express();
 
 dotenv.config();
 
-const corsConfig = {
-  origin : "*",
-  credentials : true,
-  methods : ["GET","POST","PUT","DELETE"],
-}
+// const corsConfig = {
+//   origin : "*",
+//   credentials : true,
+//   methods : ["GET","POST","PUT","DELETE"],
+// }
 
-app.options("",cors(corsConfig));
+// app.options("",cors(corsConfig));
 
-app.use(cors(corsConfig));
+// app.use(cors(corsConfig));
 
 app.use(cookieParser());
 
 //app instance
 const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
 
-// app.use(
-//   cors({
-//     origin: "*",
-//     credentials: true, 
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
-//     allowedHeaders: ["Content-Type", "Authorization"], 
-//   })
-// );
+app.use(
+  cors({
+    origin: frontendUrl,
+    credentials: true, 
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+    allowedHeaders: ["Content-Type", "Authorization"], 
+  })
+);
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
 
