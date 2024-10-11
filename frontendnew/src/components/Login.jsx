@@ -39,10 +39,12 @@ const LoginForm = () => {
       password: password,
     };
     // axios.defaults.withCredentials = true;
+    // https://english-ivory.vercel.app/
+    // "http://localhost:3000/api/admin/adminlogin",
     dispatch(startloading());
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/admin/adminlogin",
+        "https://english-ivory.vercel.app/api/admin/adminlogin",
         logindata,
         { withCredentials: true }
       );
@@ -68,7 +70,7 @@ const LoginForm = () => {
       dispatch(startloading());
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/admin/isLoggedIn",
+          "https://english-ivory.vercel.app/api/admin/isLoggedIn",
           {
             withCredentials: true,
           }
@@ -78,7 +80,7 @@ const LoginForm = () => {
         if (response?.data && response?.data?.user) {
           if (response?.data?.user?.role === "admin") {
             const res = await axios.get(
-              `http://localhost:3000/api/admin/admindata`,
+              `https://english-ivory.vercel.app/api/admin/admindata`,
               {
                 withCredentials: true,
               }
@@ -91,7 +93,7 @@ const LoginForm = () => {
             navigate("/adminMain");
           } else {
             const res = await axios.get(
-              `http://localhost:3000/api/faculty/eachfacultydetails/${response.data.user.id}`,
+              `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`,
               {
                 withCredentials: true,
               }
