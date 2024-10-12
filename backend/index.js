@@ -22,17 +22,16 @@ app.use(cookieParser());
 //app instance
 const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
 
-// app.use(
-//   cors({
-//     origin: [frontendUrl],
-//     credentials: true, 
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
-//     optionsSuccessStatus: 200,
-//   })
-// );
+app.use(
+  cors({
+    origin: [frontendUrl],
+    credentials: true, 
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+  })
+);
 
 // app.options("",cors());
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
 
