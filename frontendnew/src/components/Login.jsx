@@ -44,7 +44,7 @@ const LoginForm = () => {
     dispatch(startloading());
     try {
       const response = await axios.post(
-        "https://english-ivory.vercel.app/api/admin/adminlogin",
+        "https://english-ivory.vercel.app/adminlogin",
         logindata
         
       );
@@ -65,19 +65,21 @@ const LoginForm = () => {
   };
 
   // axios.defaults.withCredentials = true;
+  //           "https://english-ivory.vercel.app/api/admin/isLoggedIn"
   useEffect(() => {
     const checkLogin = async () => {
       dispatch(startloading());
       try {
         const response = await axios.get(
-          "https://english-ivory.vercel.app/api/admin/isLoggedIn"
+          "https://english-ivory.vercel.app/isLoggedIn"
         );
         console.log(response?.data?.user?.role);
         // Ensure the user data is what you're expecting
+        //  `https://english-ivory.vercel.app/api/admin/admindata`
         if (response?.data && response?.data?.user) {
           if (response?.data?.user?.role === "admin") {
             const res = await axios.get(
-              `https://english-ivory.vercel.app/api/admin/admindata`
+              `https://english-ivory.vercel.app/admindata`
              
             );
 
@@ -87,8 +89,9 @@ const LoginForm = () => {
             console.log("navigeting : ", response.data.user.role);
             navigate("/adminMain");
           } else {
+            // `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`
             const res = await axios.get(
-              `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`
+              `https://english-ivory.vercel.app/eachfacultydetails/${response.data.user.id}`
 
             );
             console.log(res);
