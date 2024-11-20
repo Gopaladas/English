@@ -24,9 +24,9 @@ const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend
 
 app.use(
   cors({
-    origin: [frontendUrl],
-    credentials: true, 
+    origin: [frontendUrl], 
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+    credentials: true,
   })
 );
 
