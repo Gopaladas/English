@@ -101,8 +101,8 @@ const AchievementsUpload = () => {
       // const achivement = achievements[index];
       const url =
         editIndex === null
-          ? `http://localhost:3000/api/achivement/createachievement`
-          : `http://localhost:3000/api/achivement/editachievement/${id}`;
+          ? `https://english-ashy.vercel.app/createachievement`
+          : `https://english-ashy.vercel.app/editachievement/${id}`;
       const response = await axios.post(
         url, // Corrected endpoint and port
         formData,
@@ -180,7 +180,7 @@ const AchievementsUpload = () => {
     console.log(id);
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/achivement/deleteachievement/${id}`,
+        `https://english-ashy.vercel.app/deleteachievement/${id}`,
         {
           withCredentials: true,
         }
@@ -217,7 +217,7 @@ const AchievementsUpload = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/achivement/fetchachievement`,
+          `https://english-ashy.vercel.app/fetchachievement`,
           {
             withCredentials: true,
           }
