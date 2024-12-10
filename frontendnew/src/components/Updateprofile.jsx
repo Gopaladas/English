@@ -87,8 +87,8 @@ const FacultyUpdateForm = () => {
 
     const url =
       user?.role === "admin"
-        ? "http://localhost:3000/api/admin/updateAdmin"
-        : "http://localhost:3000/api/faculty/updatedatails";
+        ? "https://english-ashy.vercel.app/updateAdmin"
+        : "https://english-ashy.vercel.app/updatedatails";
     try {
       dispatch(startloading());
       const response = await axios.post(url, facultyData, {
@@ -103,8 +103,8 @@ const FacultyUpdateForm = () => {
         if (response?.data?.success == true) {
           console.log(user?.isFaculty);
           const url = user?.isFaculty
-            ? `http://localhost:3000/api/faculty/eachfacultydetails/${user.id}`
-            : `http://localhost:3000/api/admin/admindata/${user.id}`;
+            ? `https://english-ashy.vercel.app/eachfacultydetails/${user.id}`
+            : `https://english-ashy.vercel.app/admindata/${user.id}`;
           const res = await axios.get(url, {
             withCredentials: true,
           });
