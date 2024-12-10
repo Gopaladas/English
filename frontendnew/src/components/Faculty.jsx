@@ -51,7 +51,7 @@ const Faculty = () => {
     try {
       const fetchEachFaculty = async () => {
         const res = await axios.get(
-          `http://localhost:3000/api/admin/eachfacultydetails/${id}`,
+          `https://english-ashy.vercel.app/eachfacultydetails/${id}`,
           {
             withCredentials: true,
           }
