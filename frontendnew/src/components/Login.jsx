@@ -44,7 +44,7 @@ const LoginForm = () => {
     dispatch(startloading());
     try {
       const response = await axios.post(
-        "https://english-ashy.vercel.app/?vercelToolbarCode=RTHpJKORBufMuCm/adminlogin",
+        "https://english-ashy.vercel.app/adminlogin",
         logindata,
         {
           withCredentials:true
@@ -74,7 +74,7 @@ const LoginForm = () => {
       dispatch(startloading());
       try {
         const response = await axios.get(
-          "https://english-ashy.vercel.app/?vercelToolbarCode=RTHpJKORBufMuCm/isLoggedIn",
+          "https://english-ashy.vercel.app/isLoggedIn",
           {
           withCredentials:true
         }
@@ -85,7 +85,7 @@ const LoginForm = () => {
         if (response?.data && response?.data?.user) {
           if (response?.data?.user?.role === "admin") {
             const res = await axios.get(
-              `https://english-ashy.vercel.app/?vercelToolbarCode=RTHpJKORBufMuCm/admindata/:${response?.data?.user?.id}`,
+              `https://english-ashy.vercel.app/admindata/:${response?.data?.user?.id}`,
              {
           withCredentials:true
         }
@@ -99,7 +99,7 @@ const LoginForm = () => {
           } else {
             // `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`
             const res = await axios.get(
-              `https://english-ashy.vercel.app/?vercelToolbarCode=RTHpJKORBufMuCm/eachfacultydetails/${response.data.user.id}`,
+              `https://english-ashy.vercel.app/eachfacultydetails/${response.data.user.id}`,
                 {
           withCredentials:true
         }
