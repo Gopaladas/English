@@ -30,7 +30,7 @@ const FacultyList = () => {
       dispatch(startloading());
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/faculty/facultydetails",
+          "https://english-ashy.vercel.app/facultydetails",
           {
             withCredentials: true,
           }
@@ -58,7 +58,7 @@ const FacultyList = () => {
     console.log(facultyToDelete);
     try {
       const res = await axios.delete(
-        `http://localhost:3000/api/admin/deletefaculty/${facultyToDelete._id}`,
+        `https://english-ashy.vercel.app/deletefaculty/${facultyToDelete._id}`,
         {
           withCredentials: true,
         }
@@ -124,7 +124,7 @@ const FacultyList = () => {
       };
       // axios.defaults.withCredentials = true;
       const res = await axios.post(
-        "http://localhost:3000/api/admin/createFaculty",
+        "https://english-ashy.vercel.app/createFaculty",
         data,
         {
           withCredentials: true,
