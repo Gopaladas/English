@@ -118,7 +118,7 @@ const ImageGallery = () => {
                   {image?.images.map((item, idx) => (
                     <img
                       key={idx}
-                      src={item}
+                      src={`http://localhost:3000/Files/${item}`}
                       alt={`image-${idx}`}
                       className="w-full h-40 object-cover rounded-md cursor-pointer"
                       onClick={() => handleView(item)}
@@ -162,7 +162,7 @@ const ImageGallery = () => {
               &times;
             </button>
             <img
-              src={modalImage}
+              src={`http://localhost:3000/Files/${modalImage}`}
               alt="Enlarged view"
               className="w-full h-auto object-contain"
             />

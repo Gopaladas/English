@@ -92,23 +92,48 @@ const FacultyUpdateForm = () => {
     try {
       dispatch(startloading());
       const response = await axios.post(url, facultyData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
         withCredentials: true,
       });
       console.log(response);
       console.log(user);
-      if (response?.data?.success == true) {
-        console.log(user?.isFaculty);
-        const url = user.isFaculty
-          ? `http://localhost:3000/api/faculty/eachfacultydetails/${user.id}`
-          : `http://localhost:3000/api/admin/admindata/${user.id}`;
-        const res = await axios.get(url, {
-          withCredentials: true,
-        });
-        console.log(res);
-        dispatch(loggedIn(res?.data?.user));
+      try {
+        if (response?.data?.success == true) {
+          console.log(user?.isFaculty);
+          const url = user?.isFaculty
+            ? `http://localhost:3000/api/faculty/eachfacultydetails/${user.id}`
+            : `http://localhost:3000/api/admin/admindata/${user.id}`;
+          const res = await axios.get(url, {
+            withCredentials: true,
+          });
+          console.log(res);
+          dispatch(loggedIn(res?.data?.user));
+        }
+        setMessage(response?.data?.message);
+        const initialFormData = {
+          name: "",
+          designation: "",
+          bio: "",
+          email: "",
+          phone: "",
+          qualification: "",
+          awards: [],
+          achievements: [],
+          contributions: [],
+          specialization: [],
+        };
+        
+        setFormData(initialFormData);
+        
+        
+        
+        setSuccess(true);
+      } catch (error) {
+        setMessage(response?.data?.message);
       }
-      setMessage(response?.data?.message);
-      setSuccess(true);
+      
     } catch (error) {
       setMessage("Error updating faculty details.");
     } finally {

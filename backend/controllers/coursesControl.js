@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import multer from "multer";
+// import {CloudinaryStorage} from "multer-storage-cloudinary";
 import Courses from "../models/Courses.js";
 import cloudinary from "cloudinary";
 cloudinary.v2;
@@ -13,11 +15,22 @@ async function uploadToCloud(courseimg, path) {
   return await cloudinary.uploader.upload(courseimg.tempFilePath, options);
 }
 
+async function pdfUploadToCloud(courseimg, folderPath) {
+  const options = {
+    folder:folderPath,  // Optional: Organize files into a specific folder
+    format : async () => "pdf",
+  };
+  courseimg.resource_type = "raw";
+  return await cloudinary.uploader.upload(courseimg.tempFilePath, options);
+}
+
+
 const createCourse = async (req, res) => {
   let { year, title, chapters } = req.body;
 
-  const courseImg = req.files?.imageUrl;
-  const coursePdf = req.files?.pdfUrl;
+  const courseImg = req.files?.imageUrl[0];
+  const coursePdf = req.files?.pdfUrl[0];
+
   console.log(year, title, chapters, courseImg, coursePdf);
   if (!year || !title || !coursePdf || !courseImg) {
     return res.send("Fill all the required fields: year, title, image, pdf.");
@@ -45,37 +58,37 @@ const createCourse = async (req, res) => {
     }
   }
 
-  const supportedTypes = ["jpeg", "jpg", "webp", "png"];
-  const resumesupportTypes = ["pdf"];
+  // const supportedTypes = ["jpeg", "jpg", "webp", "png"];
+  // const resumesupportTypes = ["pdf"];
+  
+  // const type = courseImg.originalname.split(".")[1].toLowerCase();
+  // const pdfType = coursePdf.originalname.split(".")[1].toLowerCase();
+  // console.log(type,pdfType);
+  // const isValidImage = checkValidity(type, supportedTypes);
+  // const isValidPdf = checkValidity(pdfType, resumesupportTypes);
+  // if (!isValidImage) {
+  //   return res.json({
+  //     success: false,
+  //     message: "image is not valid",
+  //   });
+  // }
 
-  const type = courseImg.name.split(".")[1].toLowerCase();
-  const pdfType = coursePdf.name.split(".")[1].toLowerCase();
+  // if (!isValidPdf) {
+  //   return res.json({
+  //     success: false,
+  //     message: "pdf is not valid",
+  //   });
+  // }
 
-  const isValidImage = checkValidity(type, supportedTypes);
-  const isValidPdf = checkValidity(pdfType, resumesupportTypes);
-  if (!isValidImage) {
-    return res.json({
-      success: false,
-      message: "image is not valid",
-    });
-  }
-
-  if (!isValidPdf) {
-    return res.json({
-      success: false,
-      message: "pdf is not valid",
-    });
-  }
-
-  const imgres = await uploadToCloud(courseImg, "/courses");
-  const pdfres = await uploadToCloud(coursePdf, "/courses");
+  // const imgres = await uploadToCloud(courseImg, "/courses");
+  // const pdfres = await pdfUploadToCloud(coursePdf, "/coursePdf");
 
   try {
     await Courses.create({
       year,
       title,
-      image: imgres.secure_url,
-      pdf: pdfres.secure_url,
+      image: req.files.imageUrl[0].filename,
+      pdf: req.files.pdfUrl[0].filename,
       chapters: chapters || [],
     });
     res.json({ success: true, message: "Course created successfully." });
@@ -251,9 +264,9 @@ const fetchingCourses = async (req, res) => {
     const courses = await Courses.find({ year })
       .collation({ locale: "en", strength: 2 })
       .sort({ title: 1 });
-
+    console.log(courses);
     if (courses.length === 0) {
-      return res.status(404).send("No courses found for the given year.");
+      return res.status(200).send("No courses found for the given year.");
     }
 
     res.status(200).json(courses);

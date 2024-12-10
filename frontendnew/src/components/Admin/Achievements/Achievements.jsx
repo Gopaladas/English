@@ -177,6 +177,7 @@ const AchievementsUpload = () => {
   // Handle deleting an achievement
   const handleDeleteAchievement = async (index) => {
     const id = achievements[index]._id;
+    console.log(id);
     try {
       const response = await axios.delete(
         `http://localhost:3000/api/achivement/deleteachievement/${id}`,
@@ -184,6 +185,11 @@ const AchievementsUpload = () => {
           withCredentials: true,
         }
       );
+
+      console.log(response);
+      if(response?.success==true){
+        setRefresh(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -249,7 +255,7 @@ const AchievementsUpload = () => {
             <div className="achievement-images">
               {achievement.images.map((img, i) => (
                 <div className="image-container" key={i}>
-                  <img src={img} alt={`Achievement ${i}`} />
+                  <img src={`http://localhost:3000/Files/${img}`} alt={`Achievement ${i}`} />
                   {/* Optionally, add delete functionality for images */}
                 </div>
               ))}

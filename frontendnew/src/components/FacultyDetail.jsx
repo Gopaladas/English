@@ -61,7 +61,7 @@ const FacultyDetail = () => {
     console.log(url);
     if (url) {
       const link = document.createElement("a");
-      link.href = url;
+      link.href = `http://localhost:3000/Files/${url}`;
       link.download = "Resume.pdf"; // You can customize the file name
       document.body.appendChild(link);
       link.click();
@@ -79,7 +79,7 @@ const FacultyDetail = () => {
         <div className="container mx-auto p-6 font-serif">
           <div className="text-center mb-8">
             <img
-              src={facultyData?.imageUrl}
+              src={`http://localhost:3000/Files/${facultyData?.imageUrl}`}
               alt={facultyData?.name}
               className="w-48 h-48 rounded-full mx-auto border border-gray-300 shadow-lg"
             />
@@ -111,18 +111,18 @@ const FacultyDetail = () => {
               {/* View and Download Resume Buttons */}
               <div className="mt-4">
                 <button
-                  onClick={() => window.open(facultyData?.resumeUrl, "_blank")}
+                  onClick={() => window.open(`http://localhost:3000/Files/${facultyData?.resumeUrl}`, "_blank")}
                   className="inline-block bg-indigo-500 text-white py-2 px-4 rounded mr-2 hover:bg-indigo-700"
                 >
                   View Resume
                 </button>
 
-                <button
+                {/* <button
                   onClick={() => handleDownloadResume(facultyData?.resumeUrl)}
                   className="inline-block bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
                 >
                   Download Resume
-                </button>
+                </button> */}
               </div>
             </div>
             <div className="lg:w-2/3">

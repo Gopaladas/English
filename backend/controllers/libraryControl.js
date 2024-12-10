@@ -8,9 +8,14 @@ function checkimgValidity(supportedTypes, type) {
 }
 
 async function uploadToCloud(filesdata, path) {
-  const { options } = path;
-  filesdata.resource_type = "auto";
+  const options={folder:path,resource_type:"auto"}
   return await cloudinary.uploader.upload(filesdata.tempFilePath, options);
+}
+
+async function pdfUploadToCloud(courseimg, folderPath) {
+  const options = {folder:folderPath,resource_type:"raw",format: async () => "pdf",};
+  
+  return await cloudinary.uploader.upload(courseimg.tempFilePath, options);
 }
 
 const createLibrary = async (req, res) => {
@@ -27,28 +32,28 @@ const createLibrary = async (req, res) => {
     );
   }
 
-  const supportedTypes = ["jpeg", "jfif", "jpg", "png", "webp"];
-  const resumesupportTypes = ["pdf"];
+  // const supportedTypes = ["jpeg", "jfif", "jpg", "png", "webp"];
+  // const resumesupportTypes = ["pdf"];
 
-  const imgtype = img.name.split(".")[1].toLowerCase();
-  const pdfType = pdf.name.split(".")[1].toLowerCase();
+  // const imgtype = img.name.split(".")[1].toLowerCase();
+  // const pdfType = pdf.name.split(".")[1].toLowerCase();
 
-  const isImgValid = checkimgValidity(supportedTypes, imgtype);
-  const isPdfValid = checkimgValidity(resumesupportTypes, pdfType);
+  // const isImgValid = checkimgValidity(supportedTypes, imgtype);
+  // const isPdfValid = checkimgValidity(resumesupportTypes, pdfType);
 
-  if (!isImgValid || !isPdfValid) {
-    res.json({ success: false, message: "the file type is not correct" });
-  }
+  // if (!isImgValid || !isPdfValid) {
+  //   res.json({ success: false, message: "the file type is not correct" });
+  // }
 
-  const imgUrl = await uploadToCloud(img, "/library");
-  const pdfUrl = await uploadToCloud(pdf, "/library");
-  console.log(imgUrl?.secure_url, pdfUrl?.secure_url);
+  // const imgUrl = await uploadToCloud(img, "/library");
+  // const pdfUrl = await pdfUploadToCloud(pdf, "/libraryPdf");
+  // console.log(imgUrl?.secure_url, pdfUrl?.secure_url);
   try {
     const data = await Library.create({
       type,
-      image: imgUrl.secure_url,
+      image: img[0].filename,
       title,
-      pdf: pdfUrl.secure_url,
+      pdf: pdf[0].filename,
     });
     console.log(data);
     res
@@ -109,18 +114,18 @@ const editLibrary = async (req, res) => {
 };
 
 const deleteLibrary = async (req, res) => {
-  const { id } = req.body;
-
+  const { id } = req.params;
+ console.log(id);
   try {
     const library = await Library.findOneAndDelete(id);
     if (!library) {
       return res.status(404).send("Library not found.");
     }
 
-    res.status(200).send("Library deleted successfully.");
+    return res.status(200).send("Library deleted successfully.");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error.");
+    return res.status(500).send("Server error.");
   }
 };
 

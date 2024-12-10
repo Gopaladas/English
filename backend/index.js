@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+import bodyParser from "body-parser";
 const app = express();
+app.use("/Files",express.static("Files"));
 
 dotenv.config();
 
@@ -18,10 +20,14 @@ dotenv.config();
 // app.use(cors(corsConfig));
 
 app.use(cookieParser());
+app.use(bodyParser.json());
+
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //app instance
-const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
-
+// const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
+const frontendUrl ="http://localhost:5173";
 app.use(
   cors({
     origin: [frontendUrl], 
@@ -33,7 +39,7 @@ app.use(
 // app.options("",cors());
 // app.use(cors());
 app.use(express.json());
-app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
+// app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
 
 //connectDB
 import connectDB from "./config/db.js";
@@ -60,6 +66,6 @@ app.use("/api/ce", CERoutes);
 // app.use("/api/gallery")
 
 //port setup
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => console.log(`Server is running at port : ${PORT}`));

@@ -1,83 +1,79 @@
 import React, { useState } from "react";
-import "./Bookimgstudent.css";
-import oneImage from "./book1.jpeg";
 import { useLocation } from "react-router-dom";
 
 const Bookimgstudent = () => {
   const location = useLocation();
   const { Course } = location.state;
-  const [image, setImage] = useState(oneImage);
-  const [editMessage, setEditMessage] = useState(null);
-  const [courseYear, setCourseYear] = useState("2024"); // Added state for course year
-
-  //   const handleEdit = () => {
-  //     setEditMessage("You have clicked Edit. Redirecting to another page...");
-  //   };
+  const [courseYear, setCourseYear] = useState("2024");
 
   const handleDownload = () => {
+    if (!Course?.pdf[0]) {
+      alert("File URL is missing!");
+      return;
+    }
+
     const link = document.createElement("a");
-    link.href = Course?.pdfUrl;
-    link.download = Course?.img;
+    link.href = `http://localhost:3000/Files/${Course?.pdf[0]}`;
+    link.download = Course?.pdfUrl;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  //   const handleDelete = () => {
-  //     setImage(null);
-  //   };
-
   const handleYearChange = (e) => {
-    setCourseYear(e.target.value); // Update the course year when user types in the input field
+    setCourseYear(e.target.value);
   };
 
   return (
-    <div className="bookcontaine">
-      {
-        <>
-          <div className="image-container">
-            <img src={Course?.image} alt="Selected" className="image" />
-            <p className="title">{Course?.title}</p>
-            <div className="course-label">
-              <p className="course-input">Course Year:{Course?.year}</p>
+    <div className="flex flex-col items-center bg-gray-50 min-h-screen p-6">
+      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-4xl">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
+          {/* Image and Course Info */}
+          <div className="w-full lg:w-1/2">
+            <img
+              src={`http://localhost:3000/Files/${Course?.image}`}
+              alt="Course"
+              className="rounded-lg shadow-lg w-full h-auto object-cover"
+            />
+            <p className="text-xl font-semibold text-gray-700 mt-4">
+              {Course?.title}
+            </p>
+            <div className="text-gray-600 mt-2">
+              <span className="font-medium">Course Year:</span> {Course?.year}
             </div>
           </div>
-          {console.log(Course)}
-          <div className="right-container">
-            <div className="links-container">
-              {Course?.chapters?.map((item) => {
-                return (
-                  <>
-                    {console.log(item)}
-                    <div className="link-group">
-                      <p className="link-heading">
-                        chapter : {item?.chapter} |
-                        <a href={item?.link} className="link">
-                          click here
-                        </a>
-                      </p>
-                      <button
-                        className="button downloadbutton"
-                        onClick={handleDownload}
-                      >
-                        Download{" "}
-                      </button>
-                    </div>
-                  </>
-                );
-              })}
 
-              {/* <div className="link-group">
-                <p className="link-heading">Heading for Link 2</p>
-                <a href="/" className="link">
-                  Link 2
-                </a>
-              </div> */}
-            </div>
+          {/* Chapters and Actions */}
+          <div className="w-full lg:w-1/2 space-y-4">
+            {Course?.chapters?.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between bg-gray-100 rounded-lg p-4 shadow-sm"
+              >
+                <div>
+                  <p className="text-gray-700 font-medium">
+                    Chapter: {item?.chapter}
+                  </p>
+                  <a
+                    href={item?.link}
+                    className="text-blue-500 underline mt-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Chapter
+                  </a>
+                </div>
+                <button
+                  onClick={handleDownload}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400"
+                >
+                  Download
+                </button>
+              </div>
+            ))}
           </div>
-        </>
-      }
-      {/* {editMessage && <p>{editMessage}</p>} */}
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./Library.css";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+// import { startloading, stoploading } from "../store/auth/authSlice";
+import { startloading,stoploading } from "../../../store/auth/authSlice";
+// import Loader from "./Admin/Loader/Loader";
+import Loader from "../Loader/Loader";
 
 const Library = () => {
+  const { isLoggedin, user, isloading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [trigger, setTrigger] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -51,6 +58,7 @@ const Library = () => {
 
     // Prepare the updated book object
     try {
+      dispatch(startloading());
       const res = await axios.post(
         "http://localhost:3000/api/library/createlibrary",
         LibraryData,
@@ -65,6 +73,8 @@ const Library = () => {
       }
     } catch (error) {
       console.log(error);
+    }finally{
+      dispatch(stoploading());
     }
 
     // const newBook = {
@@ -91,6 +101,7 @@ const Library = () => {
 
     setShowForm(false);
   };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -142,12 +153,21 @@ const Library = () => {
   };
 
   // Delete book functionality
-  const handleDelete = (type, index) => {
-    setBooks((prevBooks) => {
-      const updatedBooks = { ...prevBooks };
-      updatedBooks[type].splice(index, 1);
-      return updatedBooks;
-    });
+  const handleDelete = async (type, index) => {
+    // setBooks((prevBooks) => {
+    //   const updatedBooks = { ...prevBooks };
+    //   updatedBooks[type].splice(index, 1);
+
+    //   return updatedBooks;
+    // });
+     console.log(books[type][index]._id);
+
+     try {
+      const res = await axios.post(`http://localhost:3000/api/library/deletelibrary/${books[type][index]._id}`);
+      console.log(res);
+     } catch (error) {
+      console.log(error);
+     }
   };
 
   // Close form
@@ -216,10 +236,11 @@ const Library = () => {
           <div className="book-grid">
             {books[type].map((book, index) => (
               <div className="book-card" key={index}>
-                <img src={book.image} alt={book.title} className="book-image" />
+                <img src={`http://localhost:3000/Files/${book.image}`} alt={book.title} className="book-image" />
                 <h3>{book.title}</h3>
-                <a href={book.pdf} target="_blank" rel="noopener noreferrer">
+                <a href={`http://localhost:3000/Files/${book.pdf}`} target="_blank" rel="noopener noreferrer">
                   <b>View PDF</b>
+                  {console.log(book.pdf)}
                 </a>
                 <div className="editdelbtn">
                   <button

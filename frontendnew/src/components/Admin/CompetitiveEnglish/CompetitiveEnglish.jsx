@@ -97,6 +97,7 @@ const CEUpload = () => {
       formData.append("pdfs", pdf); // 'pdfs' should be the field name expected by the backend
     });
 
+
     try {
       const url =
         editIndex === null
@@ -177,10 +178,11 @@ const CEUpload = () => {
         }
       );
       console.log(response.data);
+      setRefresh(true);
     } catch (error) {
       console.error(error);
     }
-    setRefresh(true);
+    
   };
 
   // Handle form cancellation
@@ -221,7 +223,7 @@ const CEUpload = () => {
   const downloadPdf = (pdfUrl) => {
     // Create a hidden link element
     const link = document.createElement("a");
-    link.href = pdfUrl;
+    link.href = `http://localhost:3000/Files/${pdfUrl}`;
 
     // Optional: Set the 'download' attribute if you want to provide a default filename
     link.download = "document.pdf"; // You can change the filename if desired
@@ -259,16 +261,16 @@ const CEUpload = () => {
               {achievement?.pdfs?.map((pdf, i) => (
                 <div className="pdf-container" key={i}>
                   {console.log(pdf)}
-                  <a href={pdf} target="_blank" rel="noopener noreferrer">
+                  <a href={`http://localhost:3000/Files/${pdf}`} target="_blank" rel="noopener noreferrer">
                     Pdf Link
                   </a>
-                  <button
+                  {/* <button
                     type="button"
                     className="download-btn"
                     onClick={() => downloadPdf(pdf)}
                   >
                     Download
-                  </button>
+                  </button> */}
                   {/* Optionally, add delete functionality for PDFs if needed */}
                 </div>
               ))}

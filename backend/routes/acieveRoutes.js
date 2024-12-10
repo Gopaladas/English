@@ -1,5 +1,6 @@
 import express from "express";
 import authadmin from "../middleware/authAdmin.js";
+import upload from "../utils/pdfUpload.js";
 
 import {
   createAchievement,
@@ -10,7 +11,7 @@ import {
 
 const Routes = express.Router();
 
-Routes.post("/createachievement", authadmin, createAchievement);
+Routes.post("/createachievement", authadmin,upload.array("images",10), createAchievement);
 Routes.post("/editachievement/:id", authadmin, editAchievement);
 
 Routes.delete("/deleteachievement/:id", authadmin, deleteAchievement);

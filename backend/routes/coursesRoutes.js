@@ -11,10 +11,15 @@ import {
   fetchingCourses,
   fetchingPdf,
 } from "../controllers/coursesControl.js";
-
+import upload from "../utils/pdfUpload.js";
 const Routes = express.Router();
 
-Routes.post("/createcourse", createCourse);
+
+Routes.post("/createcourse", upload.fields([
+  { name: "pdfUrl", maxCount: 1 }, // Accept one file for "pdfUrl"
+  { name: "imageUrl", maxCount: 1 }, // Accept one file for "imageUrl"
+]), createCourse);
+
 Routes.post("/editcourse", editCourse);
 
 Routes.post("/addLinks", updateChapters);

@@ -20,6 +20,7 @@ import Bookimgstudent from "./components/Admin/Card/Bookimgstudent";
 import FacultyDetail from "./components/FacultyDetail";
 import Library from "./components/Admin/Library/Library";
 
+
 const AdminRoutes = () => {
   return (
     <>

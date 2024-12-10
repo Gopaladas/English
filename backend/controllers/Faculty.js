@@ -123,52 +123,52 @@ const updateFaculty = async (req, res) => {
 
     let id = req.user.id;
 
-    const facultyimg = req.files?.imageUrl;
-    console.log(facultyimg);
+    // const facultyimg = req.files?.imageUrl;
+    // console.log(facultyimg);
 
-    const facultyresume = req.files?.resumeUrl;
-    console.log(facultyresume);
+    // const facultyresume = req.files?.resumeUrl;
+    // console.log(facultyresume);
 
-    const supportedTypes = ["jpeg", "jpg", "png", "webp"];
-    const resumesupportTypes = ["pdf"];
+    // const supportedTypes = ["jpeg", "jpg", "png", "webp"];
+    // const resumesupportTypes = ["pdf"];
 
-    const type = facultyimg.name.split(".")[1].toLowerCase();
-    const resumeType = facultyresume.name.split(".")[1].toLowerCase();
+    // const type = facultyimg.name.split(".")[1].toLowerCase();
+    // const resumeType = facultyresume.name.split(".")[1].toLowerCase();
 
-    const isSupported = checkimgValidity(type, supportedTypes);
-    const isResumeSupported = checkimgValidity(resumeType, resumesupportTypes);
-    console.log(isSupported, isResumeSupported);
-    if (!isSupported) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid image type",
-      });
-    }
+    // const isSupported = checkimgValidity(type, supportedTypes);
+    // const isResumeSupported = checkimgValidity(resumeType, resumesupportTypes);
+    // console.log(isSupported, isResumeSupported);
+    // if (!isSupported) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Invalid image type",
+    //   });
+    // }
 
-    if (!isResumeSupported) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid resume type",
-      });
-    }
+    // if (!isResumeSupported) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Invalid resume type",
+    //   });
+    // }
 
-    const image_res = await uploadImgToCloud(facultyimg, "/faculty");
-    const resume_res = await uploadPdfToCloud(facultyresume, "/faculty");
+    // const image_res = await uploadImgToCloud(facultyimg, "/faculty");
+    // const resume_res = await uploadPdfToCloud(facultyresume, "/faculty");
 
-    console.log("img : ", image_res?.secure_url);
-    console.log("resume : ", resume_res?.secure_url);
+    // console.log("img : ", image_res?.secure_url);
+    // console.log("resume : ", resume_res?.secure_url);
     const faculty = await Faculty.findByIdAndUpdate(
       id,
       {
         $set: {
           name: name,
           designation: designation,
-          imageUrl: image_res.secure_url,
+          imageUrl: req.files.imageUrl[0].filename,
           bio: bio,
           email: email,
           phone: phone,
           qualification: qualification,
-          resumeUrl: resume_res.secure_url,
+          resumeUrl: req.files.resumeUrl[0].filename,
         },
         $push: {
           awards: { $each: awards ? [...awards] : [] },

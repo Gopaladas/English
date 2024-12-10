@@ -15,47 +15,52 @@ async function uploadImgToCloud(adminimg, path) {
 const createAchievement = async (req, res) => {
   const { title, descriptionPoints } = req.body;
 
-  let pdfs = req?.files?.pdfs;
+  // let pdfs = req?.files;
 
   console.log(title, descriptionPoints);
   //   console.log(images);
-  if (!Array.isArray(pdfs)) {
-    pdfs = [pdfs];
-  }
-  console.log(pdfs);
+  // if (!Array.isArray(pdfs)) {
+  //   pdfs = [pdfs];
+  // }
+  // console.log(pdfs);
 
-  if (!title || !descriptionPoints || !pdfs) {
+  // console.log(pdfs);
+
+  if (!title || !descriptionPoints ) {
     return res
       .status(400)
       .json({ message: "Title and description (array) are required." });
   }
 
-  const uploadedImgUrls = [];
+  // const uploadedImgUrls = [];
 
-  for (let pdf of pdfs) {
-    const supportedTypes = ["pdf"];
+  // for (let pdf of pdfs) {
+  //   const supportedTypes = ["pdf"];
 
-    const type = pdf.name.split(".")[1].toLowerCase();
+  //   const type = pdf.name.split(".")[1].toLowerCase();
 
-    const isValidimage = checkimgValidity(type, supportedTypes);
-    console.log(isValidimage);
-    if (!isValidimage) {
-      return res.status(400).json({
-        success: false,
-        message: "image is not valid",
-      });
-    }
+  //   const isValidimage = checkimgValidity(type, supportedTypes);
+  //   console.log(isValidimage);
+  //   if (!isValidimage) {
+  //     return res.status(400).json({
+  //       success: false,
+  //       message: "image is not valid",
+  //     });
+  //   }
 
-    const pdf_res = await uploadImgToCloud(pdf, "/gallery");
-    console.log(pdf_res.secure_url);
-    uploadedImgUrls.push(pdf_res.secure_url);
-  }
+  //   const pdf_res = await uploadImgToCloud(pdf, "/gallery");
+  //   console.log(pdf_res.secure_url);
+  //   uploadedImgUrls.push(pdf_res.secure_url);
+  // }
+
+  const pdfs = req?.files.map((file) => file.filename);
+    console.log("Uploaded pdfs: ", pdfs);
 
   try {
     const newAchievement = new CE({
       title,
       description: descriptionPoints,
-      pdfs: uploadedImgUrls,
+      pdfs: pdfs,
     });
 
     await newAchievement.save();
@@ -81,32 +86,35 @@ const editAchievement = async (req, res) => {
       .json({ message: "Achievement ID must be provided." });
   }
 
-  let pdfs = req?.files?.pdfs;
+  // let pdfs = req?.files?.pdfs;
 
-  if (!Array.isArray(pdfs)) {
-    pdfs = [pdfs];
-  }
+  // if (!Array.isArray(pdfs)) {
+  //   pdfs = [pdfs];
+  // }
 
-  const uploadedImgUrls = [];
+  // const uploadedImgUrls = [];
 
-  for (let pdf of pdfs) {
-    const supportedTypes = ["pdf"];
+  // for (let pdf of pdfs) {
+  //   const supportedTypes = ["pdf"];
 
-    const type = pdf.name.split(".")[1].toLowerCase();
+  //   const type = pdf.name.split(".")[1].toLowerCase();
 
-    const isValidimage = checkimgValidity(type, supportedTypes);
+  //   const isValidimage = checkimgValidity(type, supportedTypes);
 
-    if (!isValidimage) {
-      return res.status(400).json({
-        success: false,
-        message: "image is not valid",
-      });
-    }
+  //   if (!isValidimage) {
+  //     return res.status(400).json({
+  //       success: false,
+  //       message: "image is not valid",
+  //     });
+  //   }
 
-    const pdf_res = await uploadImgToCloud(pdf, "/gallery");
-    console.log(pdf_res.secure_url);
-    uploadedImgUrls.push(pdf_res.secure_url);
-  }
+  //   const pdf_res = await uploadImgToCloud(pdf, "/gallery");
+  //   console.log(pdf_res.secure_url);
+  //   uploadedImgUrls.push(pdf_res.secure_url);
+  // }
+
+  const pdfs = req?.files.map((file) => file.filename);
+    console.log("Uploaded pdfs: ", pdfs);
 
   try {
     // Return success response
@@ -116,7 +124,7 @@ const editAchievement = async (req, res) => {
       },
       $push: {
         description: { $each: description ? [...description] : [] },
-        pdfs: { $each: uploadedImgUrls ? [...uploadedImgUrls] : [] },
+        pdfs: { $each: pdfs ? [...pdfs] : [] },
       },
     });
     console.log(response);
@@ -145,8 +153,8 @@ const getAchievements = async (req, res) => {
 };
 
 const deleteAchievement = async (req, res) => {
-  const { id } = req.body;
-
+  const { id } = req.params;
+  console.log("id : ",id);
   try {
     const achieve = await CE.findOneAndDelete(id);
     if (!achieve) {

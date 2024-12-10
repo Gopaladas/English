@@ -102,7 +102,7 @@ const Sidebar = ({ setActiveSection }) => {
       <div className="sidebar-content">
         <div className="profile-section" onClick={handleProfileClick}>
           <img
-            src={user?.imageUrl}
+            src={`http://localhost:3000/Files/${user?.imageUrl}`}
             alt={user?.username || user?.name}
             className="profile-pic"
           />

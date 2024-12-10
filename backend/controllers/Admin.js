@@ -140,6 +140,7 @@ const adminLogout = async (req, res) => {
   }
 };
 
+
 const admindata = async (req, res) => {
   try {
     console.log("req_id", req.user);
@@ -151,7 +152,7 @@ const admindata = async (req, res) => {
         message: "Admin not found",
       });
     }
-    res.json({
+    return res.json({
       success: true,
       user: {
         id: admin?._id,
@@ -244,49 +245,49 @@ const updateAdmin = async (req, res) => {
     const contributions = JSON.parse(req.body.contributions);
     const specialization = JSON.parse(req.body.specialization);
 
-    const adminImg = req.files?.imageUrl;
-    const resumeUrl = req.files?.resumeUrl;
+    // const adminImg = req.files?.imageUrl;
+    // const resumeUrl = req.files?.resumeUrl;
 
-    console.log(adminImg, resumeUrl);
+    // console.log(adminImg, resumeUrl);
 
-    const supportedTypes = ["jpeg", "jpg", "png", "webp"];
-    const resumesupportTypes = ["pdf"];
+    // const supportedTypes = ["jpeg", "jpg", "png", "webp"];
+    // const resumesupportTypes = ["pdf"];
 
-    const type = adminImg.name.split(".")[1].toLowerCase();
-    const resumeType = resumeUrl.name.split(".")[1].toLowerCase();
+    // const type = adminImg.name.split(".")[1].toLowerCase();
+    // const resumeType = resumeUrl.name.split(".")[1].toLowerCase();
 
-    const isSupported = checkimgValidity(type, supportedTypes);
-    const isResumeSupported = checkimgValidity(resumeType, resumesupportTypes);
+    // const isSupported = checkimgValidity(type, supportedTypes);
+    // const isResumeSupported = checkimgValidity(resumeType, resumesupportTypes);
 
-    if (!isSupported) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid image type",
-      });
-    }
+    // if (!isSupported) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Invalid image type",
+    //   });
+    // }
 
-    if (!isResumeSupported) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid resume type",
-      });
-    }
-    console.log(isResumeSupported, isSupported);
-    const image_res = await uploadImgToCloud(adminImg, "/adminimage");
-    const resume_res = await uploadPdfToCloud(resumeUrl, "/adminimage");
-    console.log(image_res.secure_url, resume_res.secure_url);
+    // if (!isResumeSupported) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Invalid resume type",
+    //   });
+    // }
+    // console.log(isResumeSupported, isSupported);
+    // const image_res = await uploadImgToCloud(adminImg, "/adminimage");
+    // const resume_res = await uploadPdfToCloud(resumeUrl, "/adminimage");
+    // console.log(image_res.secure_url, resume_res.secure_url);
     const admin = await Admin.findByIdAndUpdate(
       id,
       {
         $set: {
           username: name,
           designation: designation,
-          imageUrl: image_res.secure_url,
+          imageUrl: req.files.imageUrl[0].filename,
           bio: bio,
           email: email,
           phone: phone,
           qualification: qualification,
-          resumeUrl: resume_res.secure_url,
+          resumeUrl: req.files.resumeUrl[0].filename,
         },
         $push: {
           awards: { $each: awards ? [...awards] : [] },
@@ -413,135 +414,160 @@ const eachfacultydetails = async (req, res) => {
   }
 };
 
+// const uploadImages = async (req, res) => {
+//   console.log(req.files);
+//   try {
+//     if (!req.files) {
+//       console.log("not found");
+//       return res.status(401).json({
+//         success: false,
+//         message: "images is are null",
+//       });
+//     }
+
+//     let files = req.files;
+//     console.log("images : ", images);
+
+//     let images = files.map((file) => file.filename);    
+
+//     // if (!Array.isArray(images)) {
+//     //   images = [images];
+//     // }
+
+//     // console.log("id : ", images._id);
+
+//     // const uploadedImgUrls = [];
+
+//     // for (let image of images) {
+//     //   const supportedTypes = ["jpeg", "jpg", "png", "webp"];
+
+//     //   const type = image.name.split(".")[1].toLowerCase();
+
+//     //   const isValidimage = checkimgValidity(type, supportedTypes);
+
+//     //   if (!isValidimage) {
+//     //     return res.status(400).json({
+//     //       success: false,
+//     //       message: "image is not valid",
+//     //     });
+//     //   }
+
+//     //   const image_res = await uploadImgToCloud(image, "/gallery");
+//     //   console.log(image_res.secure_url);
+//     //   uploadedImgUrls.push(image_res.secure_url);
+//     // }
+
+//     // const createdData = new Gallery({
+//     //   images: images,
+//     // });
+
+//     // console.log("res :", createdData);
+
+//     const imgageres = await Gallery.create({
+//       images:images
+//     });
+//     console.log("down : ", imgageres);
+
+//     return res.status(201).json({
+//       success: true,
+//       message: "images uploaded successfully",
+//       data: imgageres,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Error while uploading the image",
+//     });
+//   }
+// };
+
+
 const uploadImages = async (req, res) => {
   try {
-    if (!req.files || !req.files.images) {
-      return res.status(401).json({
+    // Ensure files are provided
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
         success: false,
-        message: "images is are null",
+        message: "No images were uploaded.",
       });
     }
 
-    let images = req.files?.images;
-    console.log("images : ", images);
+    // Map filenames from uploaded files
+    const images = req.files.map((file) => file.filename);
+    console.log("Uploaded images: ", images);
 
-    if (!Array.isArray(images)) {
-      images = [images];
-    }
+    // Save the image details to the database
+    const imgageres = await Gallery.create({ images });
+    console.log("Saved to DB: ", imgageres);
 
-    console.log("id : ", images._id);
-
-    const uploadedImgUrls = [];
-
-    for (let image of images) {
-      const supportedTypes = ["jpeg", "jpg", "png", "webp"];
-
-      const type = image.name.split(".")[1].toLowerCase();
-
-      const isValidimage = checkimgValidity(type, supportedTypes);
-
-      if (!isValidimage) {
-        return res.status(400).json({
-          success: false,
-          message: "image is not valid",
-        });
-      }
-
-      const image_res = await uploadImgToCloud(image, "/gallery");
-      console.log(image_res.secure_url);
-      uploadedImgUrls.push(image_res.secure_url);
-    }
-
-    const createdData = new Gallery({
-      images: uploadedImgUrls,
-    });
-
-    console.log("res :", createdData);
-
-    const imgageres = await createdData.save();
-    console.log("down : ", imgageres);
-
+    // Respond with success
     return res.status(201).json({
       success: true,
-      message: "images uploaded successfully",
+      message: "Images uploaded and saved successfully.",
       data: imgageres,
     });
   } catch (error) {
-    res.status(500).json({
+    console.error("Error uploading images: ", error);
+    return res.status(500).json({
       success: false,
-      message: "Error while uploading the image",
+      message: "Error while uploading images.",
     });
   }
 };
 
 const addImages = async (req, res) => {
   try {
-    if (!req.files || !req.files.images) {
-      return res.status(401).json({
+    // Check if files exist in the request
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
         success: false,
-        message: "images is are null",
+        message: "No images were uploaded.",
       });
     }
 
     const id = req.params.id;
-    let images = req.files.images;
-    console.log(id, images);
 
-    if (!Array.isArray(images)) {
-      images = [images];
-    }
+    // Map filenames from uploaded files
+    const images = req.files.map((file) => file.filename);
+    console.log("Uploaded images: ", images);
 
-    let uploadedImgUrls = [];
-
-    for (let image of images) {
-      const supportedTypes = ["jpeg", "jpg", "png", "webp"];
-
-      const type = image.name.split(".")[1].toLowerCase();
-
-      if (!checkimgValidity(type, supportedTypes)) {
-        return res.status(401).json({
-          success: false,
-          message: "image type is not correct",
-        });
-      }
-
-      const image_res = await uploadImgToCloud(image, "/gallery");
-      console.log(image_res.secure_url);
-      uploadedImgUrls.push(image_res.secure_url);
-    }
-
-    const existGallery = await Gallery.findByIdAndUpdate(
+    // Validate gallery existence and update with new images
+    const updatedGallery = await Gallery.findByIdAndUpdate(
       id,
       {
         $push: {
-          images: { $each: uploadedImgUrls ? [...uploadedImgUrls] : [] },
+          images: { $each: images ? [...images] : [] }, // Add new images to the existing array
         },
       },
       {
-        new: true,
-        runValidators: true,
+        new: true, // Return the updated document
+        runValidators: true, // Run schema validators
       }
     );
 
-    if (!existGallery) {
-      return res.status(401).json({
+    // Handle case where gallery does not exist
+    if (!updatedGallery) {
+      return res.status(404).json({
         success: false,
-        message: "no such gallery",
+        message: "Gallery not found.",
       });
     }
 
+    // Respond with success
     return res.status(201).json({
       success: true,
-      message: "uploaded successfully",
-      data: existGallery,
+      message: "Images uploaded and added successfully.",
+      data: updatedGallery,
     });
   } catch (error) {
+    console.error("Error while uploading images:", error);
     return res.status(500).json({
       success: false,
-      message: "error while uploading the images",
+      message: "Error while uploading images.",
     });
   }
 };
+
 
 const imagesData = async (req, res) => {
   try {

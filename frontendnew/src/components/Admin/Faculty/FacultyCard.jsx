@@ -9,7 +9,7 @@ const FacultyCard = ({ faculty, onDelete, onInfo }) => {
   return (
     <div className="faculty-card">
       <img
-        src={faculty?.imageUrl}
+        src={`http://localhost:3000/Files/${faculty?.imageUrl}`}
         alt={faculty?.name}
         className="faculty-pic"
       />

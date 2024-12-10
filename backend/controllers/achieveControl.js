@@ -14,48 +14,52 @@ async function uploadImgToCloud(adminimg, path) {
 
 const createAchievement = async (req, res) => {
   const { title, descriptionPoints } = req.body;
+   console.log(req?.files);
+  // let images = req?.files?.images;
 
-  let images = req?.files?.images;
+  const images = req?.files.map((file) => file.filename);
+    console.log("Uploaded images: ", images);
+
 
   console.log(title, descriptionPoints);
   //   console.log(images);
-  if (!Array.isArray(images)) {
-    images = [images];
-  }
-  console.log(images);
+  // if (!Array.isArray(images)) {
+  //   images = [images];
+  // }
+  // console.log(images);
 
-  if (!title || !descriptionPoints || !images) {
+  if (!title || !descriptionPoints ) {
     return res
       .status(400)
       .json({ message: "Title and description (array) are required." });
   }
 
-  const uploadedImgUrls = [];
+  // const uploadedImgUrls = [];
 
-  for (let image of images) {
-    const supportedTypes = ["jpeg", "jpg", "png", "webp"];
+  // for (let image of images) {
+  //   const supportedTypes = ["jpeg", "jpg", "png", "webp"];
 
-    const type = image.name.split(".")[1].toLowerCase();
+  //   const type = image.name.split(".")[1].toLowerCase();
 
-    const isValidimage = checkimgValidity(type, supportedTypes);
-    console.log(isValidimage);
-    if (!isValidimage) {
-      return res.status(400).json({
-        success: false,
-        message: "image is not valid",
-      });
-    }
+  //   const isValidimage = checkimgValidity(type, supportedTypes);
+  //   console.log(isValidimage);
+  //   if (!isValidimage) {
+  //     return res.status(400).json({
+  //       success: false,
+  //       message: "image is not valid",
+  //     });
+  //   }
 
-    const image_res = await uploadImgToCloud(image, "/gallery");
-    console.log(image_res.secure_url);
-    uploadedImgUrls.push(image_res.secure_url);
-  }
+  //   const image_res = await uploadImgToCloud(image, "/gallery");
+  //   console.log(image_res.secure_url);
+  //   uploadedImgUrls.push(image_res.secure_url);
+  // }
 
   try {
     const newAchievement = new Achievement({
       title,
       description: descriptionPoints,
-      images: uploadedImgUrls,
+      images,
     });
 
     await newAchievement.save();
@@ -143,21 +147,49 @@ const getAchievements = async (req, res) => {
   }
 };
 
+// const deleteAchievement = async (req, res) => {
+//   const { id } = req.params;
+//   console.log("id : ",id);
+//   try {
+//     const achieve = await Achievement.findOneAndDelete({id});
+//     if (!achieve) {
+//       return res.status(404).send("Achievement not found.");
+//     }
+
+//     res.status(200).send("Achievement deleted successfully.");
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Server error.");
+//   }
+// };
 const deleteAchievement = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params; // Extract the id from request parameters
+  console.log("Deleting achievement with id:", id);
 
   try {
-    const achieve = await Achievement.findOneAndDelete(id);
+    // Use _id since Mongoose stores document IDs in this field
+    const achieve = await Achievement.findByIdAndDelete(id);
+
     if (!achieve) {
-      return res.status(404).send("Achievement not found.");
+      return res.status(404).json({
+        success: false,
+        message: "Achievement not found.",
+      });
     }
 
-    res.status(200).send("Achievement deleted successfully.");
+    res.status(200).json({
+      success: true,
+      message: "Achievement deleted successfully.",
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Server error.");
+    console.error("Error deleting achievement:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while deleting achievement.",
+    });
   }
 };
+
 
 export {
   createAchievement,

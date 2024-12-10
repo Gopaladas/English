@@ -33,7 +33,8 @@ const Courses = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(img);
+    console.log(pdf);
     const formData = new FormData();
     formData.append("year", category);
     formData.append("title", title);
@@ -41,14 +42,18 @@ const Courses = () => {
     formData.append("pdfUrl", pdf); // Use pdf instead of setPdf
     formData.append("chapters", JSON.stringify(chapters));
 
-    console.log(formData);
+    console.log(category , title, img, pdf);
 
     try {
       const res = await axios.post(
         "http://localhost:3000/api/courses/createcourse",
         formData,
         {
+
           withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -76,9 +81,41 @@ const Courses = () => {
     //   console.error("Error submitting the form:", error);
     // }
   };
-
+ 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  
+  //   const formData = new FormData();
+  //   formData.append("year", category);
+  //   formData.append("title", title);
+  //   formData.append("imageUrl", img);
+  //   formData.append("pdfUrl", pdf);
+  //   formData.append("chapters", JSON.stringify(chapters));
+  
+  //   // Debugging FormData
+  //   for (let [key, value] of formData.entries()) {
+  //     console.log(`${key}:`, value);
+  //   }
+  
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:3000/api/courses/createcourse",
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     console.log("Response:", res.data);
+  //   } catch (error) {
+  //     console.error("Error:", error.response?.data || error.message);
+  //   }
+  // };
+  
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} >
       <div className="category-container">
         <label>Course Year:</label>
         <select value={category} onChange={handleCategoryChange} required>

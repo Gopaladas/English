@@ -2,7 +2,10 @@ import express from "express";
 // import { Router } from 'express';
 import Admin from "../models/admin.js";
 import Faculty from "../models/faculty.js";
+import upload from "../utils/pdfUpload.js";
+
 const Router = express.Router();
+
 
 import {
   createAdmin,
@@ -25,13 +28,16 @@ import authadmin from "../middleware/authAdmin.js";
 Router.route("/").post(createAdmin);
 Router.post("/adminlogin", adminLogin);
 Router.post("/adminlogout", adminLogout);
-Router.get("/admindata", authadmin, admindata);
+Router.get("/admindata/:id", authadmin, admindata);
 Router.post("/changepassword", authadmin, changepass);
 Router.post("/createFaculty", authadmin, createFaculty);
 Router.get("/eachfacultydetails/:id", eachfacultydetails);
-Router.post("/updateAdmin", authadmin, updateAdmin);
-Router.post("/uploadimages", authadmin, uploadImages);
-Router.post("/addimages/:id", authadmin, addImages);
+Router.post("/updateAdmin", authadmin, upload.fields([
+  { name: "resumeUrl", maxCount: 1 }, // Accept one file for "pdfUrl"
+  { name: "imageUrl", maxCount: 1 }, // Accept one file for "imageUrl"
+]),updateAdmin);
+Router.post("/uploadimages", authadmin,upload.array("images",10) ,uploadImages);
+Router.post("/addimages/:id", authadmin,upload.array("images",10), addImages);
 Router.get("/imagesdata", imagesData);
 Router.delete("/deletefaculty/:id", authadmin, deleteFaculty);
 Router.get("/singleEventData/:id", singleEventData);

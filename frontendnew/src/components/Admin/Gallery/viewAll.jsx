@@ -45,7 +45,7 @@ const ViewAll = () => {
             {images?.length > 0 ? (
               images?.map((img, index) => (
                 <div key={index} className="image-item">
-                  <img src={img} alt={`Event Image ${index + 1}`} />
+                  <img src={`http://localhost:3000/Files/${img}`} alt={`Event Image ${index + 1}`} />
                 </div>
               ))
             ) : (

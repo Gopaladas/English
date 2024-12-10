@@ -74,9 +74,9 @@ const Bookstudent = () => {
   // const [Books, setBooks] = useState([]);
 
   // Filter core values based on the search term
-  const filteredValues = coreValues.filter((value) =>
+  const filteredValues = Array.isArray(coreValues) ? coreValues.filter((value) =>
     value.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ) : [];
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -139,9 +139,10 @@ const Bookstudent = () => {
               <article className="custom-card" key={index}>
                 {/* Card Image */}
                 <div className="card-image-container">
+                {console.log(value.image)}
                   <img
                     className="card-image"
-                    src={value.image}
+                    src={`http://localhost:3000/Files/${value.image}`}
                     alt={value.title}
                   />
                 </div>
