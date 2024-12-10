@@ -101,8 +101,8 @@ const CEUpload = () => {
     try {
       const url =
         editIndex === null
-          ? `http://localhost:3000/api/ce/createenglish`
-          : `http://localhost:3000/api/ce/editenglish/${id}`;
+          ? `https://english-ashy.vercel.app/createenglish`
+          : `https://english-ashy.vercel.app/editenglish/${id}`;
       const response = await axios.post(url, formData, {
         withCredentials: true,
         headers: {
@@ -172,7 +172,7 @@ const CEUpload = () => {
     const id = achievements[index]._id;
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/ce/deletenglish/${id}`,
+        `https://english-ashy.vercel.app/deletenglish/${id}`,
         {
           withCredentials: true,
         }
@@ -204,7 +204,7 @@ const CEUpload = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/ce/fetchenglish`,
+          `https://english-ashy.vercel.app/fetchenglish`,
           {
             withCredentials: true,
           }
