@@ -54,7 +54,7 @@ const ImageGallery = () => {
       try {
         dispatch(startloading());
         const res = await axios.get(
-          "http://localhost:3000/api/admin/imagesdata",
+          "https://english-ashy.vercel.app/imagesdata",
           {
             withCredentials: true,
           }
