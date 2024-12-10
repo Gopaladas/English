@@ -46,7 +46,7 @@ const Courses = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/courses/createcourse",
+        "https://english-ashy.vercel.app/createcourse",
         formData,
         {
 
