@@ -45,15 +45,16 @@ const LoginForm = () => {
     try {
       const response = await axios.post(
         `${backend_url}/api/admin/adminlogin`,
-        logindata,
-        {
-          withCredentials:true,
-          headers: {
-            "Content-Type": "application/json",
-            "X-Custom-Header": "YourHeaderHere", // Add custom headers if needed
-          },
+        logindata
+        //,
+        // {
+        //   withCredentials:true,
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "X-Custom-Header": "YourHeaderHere", // Add custom headers if needed
+        //   },
 
-        }
+        // }
         
       );
 
@@ -79,15 +80,16 @@ const LoginForm = () => {
       dispatch(startloading());
       try {
         const response = await axios.get(
-          `${backend_url}/api/admin/isLoggedIn`,
-          {
-          withCredentials:true,
-            headers: {
-            "Content-Type": "application/json",
-            "X-Custom-Header": "YourHeaderHere", // Add custom headers if needed
-          },
+          `${backend_url}/api/admin/isLoggedIn`
+        //   ,
+        //   {
+        //   withCredentials:true,
+        //     headers: {
+        //     "Content-Type": "application/json",
+        //     "X-Custom-Header": "YourHeaderHere", // Add custom headers if needed
+        //   },
 
-        }
+        // }
         );
         console.log(response?.data?.user);
         // Ensure the user data is what you're expecting
@@ -109,10 +111,11 @@ const LoginForm = () => {
           } else {
             // `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`
             const res = await axios.get(
-              `${backend_url}/api/faculty/eachfacultydetails/${response.data.user.id}`,
-                {
-          withCredentials:true
-        }
+              `${backend_url}/api/faculty/eachfacultydetails/${response.data.user.id}`
+        //       ,
+        //         {
+        //   withCredentials:true
+        // }
             );
             console.log(res);
             dispatch(loggedIn(res.data.user));
