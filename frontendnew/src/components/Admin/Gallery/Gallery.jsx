@@ -2,9 +2,11 @@
 
 import axios from "axios";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Upload = () => {
+  const {backend_url}=useSelector((state)=>state.auth);
   const { id } = useParams();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
@@ -36,8 +38,8 @@ const Upload = () => {
     });
 
     const galleryUrl = id
-      ? `http://localhost:3000/api/admin/addimages/${id}`
-      : "http://localhost:3000/api/admin/uploadimages";
+      ? `${backend_url}/api/admin/addimages/${id}`
+      : `${backend_url}/api/admin/uploadimages`;
     try {
       setUploading(true);
       const res = await axios.post(galleryUrl, formData, {

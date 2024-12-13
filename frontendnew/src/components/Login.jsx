@@ -10,10 +10,10 @@ import {
 } from "../store/auth/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 // import { Navigate } from "react-router-dom";
-
 const LoginForm = () => {
-  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, isloading,backend_url } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  // const apiurl = process.env.backend_url;
 
   const [data, setData] = useState({
     email: "",
@@ -44,7 +44,7 @@ const LoginForm = () => {
     dispatch(startloading());
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/admin/adminlogin",
+        `${backend_url}/api/admin/adminlogin`,
         logindata,
         {
           withCredentials:true
@@ -74,7 +74,7 @@ const LoginForm = () => {
       dispatch(startloading());
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/admin/isLoggedIn",
+          `${backend_url}/api/admin/isLoggedIn`,
           {
           withCredentials:true
         }
@@ -85,7 +85,7 @@ const LoginForm = () => {
         if (response?.data && response?.data?.user) {
           if (response?.data?.user?.role === "admin") {
             const res = await axios.get(
-              `http://localhost:3000/api/admin/admindata/:${response?.data?.user?.id}`,
+              `${backend_url}/api/admin/admindata/:${response?.data?.user?.id}`,
              {
           withCredentials:true
         }
@@ -99,7 +99,7 @@ const LoginForm = () => {
           } else {
             // `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`
             const res = await axios.get(
-              `http://localhost:3000/api/faculty/eachfacultydetails/${response.data.user.id}`,
+              `${backend_url}/api/faculty/eachfacultydetails/${response.data.user.id}`,
                 {
           withCredentials:true
         }

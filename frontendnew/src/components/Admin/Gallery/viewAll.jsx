@@ -8,7 +8,7 @@ import { startloading, stoploading } from "../../../store/auth/authSlice";
 
 const ViewAll = () => {
   const { id } = useParams();
-  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, isloading,backend_url } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ const ViewAll = () => {
       try {
         dispatch(startloading());
         const response = await axios.get(
-          `http://localhost:3000/api/admin/singleEventData/${id}`
+          `${backend_url}/api/admin/singleEventData/${id}`
         );
         console.log(response);
         setImages(response.data.data.images); // Assuming the images are in an 'images' field
@@ -45,7 +45,7 @@ const ViewAll = () => {
             {images?.length > 0 ? (
               images?.map((img, index) => (
                 <div key={index} className="image-item">
-                  <img src={`http://localhost:3000/Files/${img}`} alt={`Event Image ${index + 1}`} />
+                  <img src={`${backend_url}/Files/${img}`} alt={`Event Image ${index + 1}`} />
                 </div>
               ))
             ) : (

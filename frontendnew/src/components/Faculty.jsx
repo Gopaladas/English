@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 // Sample data (you should replace this with your actual data source)
@@ -44,6 +45,7 @@ import { Link, useParams } from "react-router-dom";
 // ];
 
 const Faculty = () => {
+  const {backend_url}=useSelector((state)=>state.auth);
   const { id } = useParams();
   console.log(id);
   const [facultyData, setFacultyData] = useState();
@@ -51,7 +53,7 @@ const Faculty = () => {
     try {
       const fetchEachFaculty = async () => {
         const res = await axios.get(
-          `http://localhost:3000/api/admin/eachfacultydetails/${id}`,
+          `${backend_url}/api/admin/eachfacultydetails/${id}`,
           {
             withCredentials: true,
           }

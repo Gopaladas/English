@@ -3,13 +3,13 @@ import "./FacultyList.css";
 import { useDispatch, useSelector } from "react-redux";
 
 const FacultyCard = ({ faculty, onDelete, onInfo }) => {
-  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, isloading ,backend_url} = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   return (
     <div className="faculty-card">
       <img
-        src={`http://localhost:3000/Files/${faculty?.imageUrl}`}
+        src={`${backend_url}/Files/${faculty?.imageUrl}`}
         alt={faculty?.name}
         className="faculty-pic"
       />

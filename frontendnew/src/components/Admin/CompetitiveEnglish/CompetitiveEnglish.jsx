@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import "./CE.css";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const CEUpload = () => {
+  const {backend_url} = useSelector((state)=>state.auth);
   const [achievements, setAchievements] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
@@ -101,8 +103,8 @@ const CEUpload = () => {
     try {
       const url =
         editIndex === null
-          ? `http://localhost:3000/api/ce/createenglish`
-          : `http://localhost:3000/api/ce/editenglish/${id}`;
+          ? `${backend_url}/api/ce/createenglish`
+          : `${backend_url}/api/ce/editenglish/${id}`;
       const response = await axios.post(url, formData, {
         withCredentials: true,
         headers: {
@@ -172,7 +174,7 @@ const CEUpload = () => {
     const id = achievements[index]._id;
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/ce/deletenglish/${id}`,
+        `${backend_url}/api/ce/deletenglish/${id}`,
         {
           withCredentials: true,
         }
@@ -204,7 +206,7 @@ const CEUpload = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/ce/fetchenglish`,
+          `${backend_url}/api/ce/fetchenglish`,
           {
             withCredentials: true,
           }
@@ -223,7 +225,7 @@ const CEUpload = () => {
   const downloadPdf = (pdfUrl) => {
     // Create a hidden link element
     const link = document.createElement("a");
-    link.href = `http://localhost:3000/Files/${pdfUrl}`;
+    link.href = `${backend_url}/Files/${pdfUrl}`;
 
     // Optional: Set the 'download' attribute if you want to provide a default filename
     link.download = "document.pdf"; // You can change the filename if desired
@@ -261,7 +263,7 @@ const CEUpload = () => {
               {achievement?.pdfs?.map((pdf, i) => (
                 <div className="pdf-container" key={i}>
                   {console.log(pdf)}
-                  <a href={`http://localhost:3000/Files/${pdf}`} target="_blank" rel="noopener noreferrer">
+                  <a href={`${backend_url}/Files/${pdf}`} target="_blank" rel="noopener noreferrer">
                     Pdf Link
                   </a>
                   {/* <button

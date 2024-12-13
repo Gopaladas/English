@@ -8,7 +8,7 @@ import Loader from "./Admin/Loader/Loader";
 
 const FacultyDetail = () => {
   const { id } = useParams();
-  const { isLoggedin, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedin, user, isloading,backend_url } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   console.log(id);
@@ -19,7 +19,7 @@ const FacultyDetail = () => {
         dispatch(startloading());
         const fetchEachFaculty = async () => {
           const res = await axios.get(
-            `http://localhost:3000/api/admin/eachfacultydetails/${id}`,
+            `${backend_url}/api/admin/eachfacultydetails/${id}`,
             {
               withCredentials: true,
             }
@@ -61,7 +61,7 @@ const FacultyDetail = () => {
     console.log(url);
     if (url) {
       const link = document.createElement("a");
-      link.href = `http://localhost:3000/Files/${url}`;
+      link.href = `${backend_url}/Files/${url}`;
       link.download = "Resume.pdf"; // You can customize the file name
       document.body.appendChild(link);
       link.click();
@@ -79,7 +79,7 @@ const FacultyDetail = () => {
         <div className="container mx-auto p-6 font-serif">
           <div className="text-center mb-8">
             <img
-              src={`http://localhost:3000/Files/${facultyData?.imageUrl}`}
+              src={`${backend_url}/Files/${facultyData?.imageUrl}`}
               alt={facultyData?.name}
               className="w-48 h-48 rounded-full mx-auto border border-gray-300 shadow-lg"
             />
@@ -111,7 +111,7 @@ const FacultyDetail = () => {
               {/* View and Download Resume Buttons */}
               <div className="mt-4">
                 <button
-                  onClick={() => window.open(`http://localhost:3000/Files/${facultyData?.resumeUrl}`, "_blank")}
+                  onClick={() => window.open(`${backend_url}/Files/${facultyData?.resumeUrl}`, "_blank")}
                   className="inline-block bg-indigo-500 text-white py-2 px-4 rounded mr-2 hover:bg-indigo-700"
                 >
                   View Resume

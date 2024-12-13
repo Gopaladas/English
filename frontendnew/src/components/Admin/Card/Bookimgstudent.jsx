@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 const Bookimgstudent = () => {
+  const {backend_url} = useSelector((state)=>state.auth);
   const location = useLocation();
   const { Course } = location.state;
   const [courseYear, setCourseYear] = useState("2024");
@@ -13,7 +15,7 @@ const Bookimgstudent = () => {
     }
 
     const link = document.createElement("a");
-    link.href = `http://localhost:3000/Files/${Course?.pdf[0]}`;
+    link.href = `${backend_url}/Files/${Course?.pdf[0]}`;
     link.download = Course?.pdfUrl;
     document.body.appendChild(link);
     link.click();
@@ -31,7 +33,7 @@ const Bookimgstudent = () => {
           {/* Image and Course Info */}
           <div className="w-full lg:w-1/2">
             <img
-              src={`http://localhost:3000/Files/${Course?.image}`}
+              src={`${backend_url}/Files/${Course?.image}`}
               alt="Course"
               className="rounded-lg shadow-lg w-full h-auto object-cover"
             />

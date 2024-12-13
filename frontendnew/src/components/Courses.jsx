@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./Courses.css";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Courses = () => {
+  const {backend_url}=useSelector((state)=>state.auth);
   const [title, setTitle] = useState("");
   const [img, setImg] = useState(null);
   const [pdf, setPdf] = useState(null);
@@ -46,7 +48,7 @@ const Courses = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/courses/createcourse",
+        `${backend_url}/api/courses/createcourse`,
         formData,
         {
 

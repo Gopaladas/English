@@ -6,7 +6,7 @@ import Loader from "./Admin/Loader/Loader";
 import { Navigate } from "react-router-dom";
 
 const FacultyUpdateForm = () => {
-  const { isLoggedin, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedin, user, isloading ,backend_url} = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     name: "",
     designation: "",
@@ -87,8 +87,8 @@ const FacultyUpdateForm = () => {
 
     const url =
       user?.role === "admin"
-        ? "http://localhost:3000/api/admin/updateAdmin"
-        : "http://localhost:3000/api/faculty/updatedatails";
+        ? `${backend_url}/api/admin/updateAdmin`
+        : `${backend_url}/api/faculty/updatedatails`;
     try {
       dispatch(startloading());
       const response = await axios.post(url, facultyData, {
@@ -103,8 +103,8 @@ const FacultyUpdateForm = () => {
         if (response?.data?.success == true) {
           console.log(user?.isFaculty);
           const url = user?.isFaculty
-            ? `http://localhost:3000/api/faculty/eachfacultydetails/${user.id}`
-            : `http://localhost:3000/api/admin/admindata/${user.id}`;
+            ? `${backend_url}/api/faculty/eachfacultydetails/${user.id}`
+            : `${backend_url}/api/admin/admindata/${user.id}`;
           const res = await axios.get(url, {
             withCredentials: true,
           });

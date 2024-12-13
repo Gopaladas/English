@@ -66,7 +66,7 @@ import Loader from "../Loader/Loader";
 // ];
 
 const Bookstudent = () => {
-  const { isLoggedin, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedin, user, isloading,backend_url } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const [coreValues, setCoreValues] = useState([]);
@@ -87,7 +87,7 @@ const Bookstudent = () => {
       dispatch(startloading());
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/courses/fetchcourses?year=${year}`,
+          `${backend_url}/api/courses/fetchcourses?year=${year}`,
           {
             withCredentials: true,
           }
@@ -142,7 +142,7 @@ const Bookstudent = () => {
                 {console.log(value.image)}
                   <img
                     className="card-image"
-                    src={`http://localhost:3000/Files/${value.image}`}
+                    src={`${backend_url}/Files/${value.image}`}
                     alt={value.title}
                   />
                 </div>

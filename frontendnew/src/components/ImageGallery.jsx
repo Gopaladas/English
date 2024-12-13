@@ -8,7 +8,7 @@ import { startloading, stoploading } from "../store/auth/authSlice";
 import Loader from "./Admin/Loader/Loader";
 
 const ImageGallery = () => {
-  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, isloading ,backend_url} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [imagesData, setImagesData] = useState([]);
@@ -54,7 +54,7 @@ const ImageGallery = () => {
       try {
         dispatch(startloading());
         const res = await axios.get(
-          "http://localhost:3000/api/admin/imagesdata",
+          `${backend_url}/api/admin/imagesdata`,
           {
             withCredentials: true,
           }
@@ -118,7 +118,7 @@ const ImageGallery = () => {
                   {image?.images.map((item, idx) => (
                     <img
                       key={idx}
-                      src={`http://localhost:3000/Files/${item}`}
+                      src={`${backend_url}/Files/${item}`}
                       alt={`image-${idx}`}
                       className="w-full h-40 object-cover rounded-md cursor-pointer"
                       onClick={() => handleView(item)}
@@ -162,7 +162,7 @@ const ImageGallery = () => {
               &times;
             </button>
             <img
-              src={`http://localhost:3000/Files/${modalImage}`}
+              src={`${backend_url}/Files/${modalImage}`}
               alt="Enlarged view"
               className="w-full h-auto object-contain"
             />

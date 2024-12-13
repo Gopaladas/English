@@ -6,6 +6,7 @@ const authSlice = createSlice({
     isLoggedIn: false,
     user: null,
     isloading: false,
+    backend_url:"http://localhost:3000",
   },
   reducers: {
     startloading: (state) => {

@@ -8,7 +8,7 @@ import { startloading, stoploading } from "../../../store/auth/authSlice";
 import Loader from "../Loader/Loader";
 
 const FacultyList = () => {
-  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, isloading ,backend_url} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [faculty, setFaculty] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -30,7 +30,7 @@ const FacultyList = () => {
       dispatch(startloading());
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/faculty/facultydetails",
+          `${backend_url}/api/faculty/facultydetails`,
           {
             withCredentials: true,
           }
@@ -58,7 +58,7 @@ const FacultyList = () => {
     console.log(facultyToDelete);
     try {
       const res = await axios.delete(
-        `http://localhost:3000/api/admin/deletefaculty/${facultyToDelete._id}`,
+        `${backend_url}/api/admin/deletefaculty/${facultyToDelete._id}`,
         {
           withCredentials: true,
         }
@@ -124,7 +124,7 @@ const FacultyList = () => {
       };
       // axios.defaults.withCredentials = true;
       const res = await axios.post(
-        "http://localhost:3000/api/admin/createFaculty",
+        `${backend_url}/api/admin/createFaculty`,
         data,
         {
           withCredentials: true,

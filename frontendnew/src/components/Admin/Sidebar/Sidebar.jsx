@@ -37,7 +37,7 @@ const ProfileName = ({ user }) => (
 );
 
 const Sidebar = ({ setActiveSection }) => {
-  const { isLoggedIn, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, isloading ,backend_url} = useSelector((state) => state.auth);
 
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isDeptOpen, setDeptOpen] = useState(false);
@@ -102,7 +102,7 @@ const Sidebar = ({ setActiveSection }) => {
       <div className="sidebar-content">
         <div className="profile-section" onClick={handleProfileClick}>
           <img
-            src={`http://localhost:3000/Files/${user?.imageUrl}`}
+            src={`${backend_url}/Files/${user?.imageUrl}`}
             alt={user?.username || user?.name}
             className="profile-pic"
           />

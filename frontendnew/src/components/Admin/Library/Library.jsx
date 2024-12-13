@@ -8,7 +8,7 @@ import { startloading,stoploading } from "../../../store/auth/authSlice";
 import Loader from "../Loader/Loader";
 
 const Library = () => {
-  const { isLoggedin, user, isloading } = useSelector((state) => state.auth);
+  const { isLoggedin, user, isloading ,backend_url} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [trigger, setTrigger] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -60,7 +60,7 @@ const Library = () => {
     try {
       dispatch(startloading());
       const res = await axios.post(
-        "http://localhost:3000/api/library/createlibrary",
+        `${backend_url}/api/library/createlibrary`,
         LibraryData,
         {
           withCredentials: true,
@@ -107,7 +107,7 @@ const Library = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/library/fetchlibrary",
+          `${backend_url}/api/library/fetchlibrary`,
           {
             withCredentials: true,
           }
@@ -163,7 +163,7 @@ const Library = () => {
      console.log(books[type][index]._id);
 
      try {
-      const res = await axios.post(`http://localhost:3000/api/library/deletelibrary/${books[type][index]._id}`);
+      const res = await axios.post(`${backend_url}/api/library/deletelibrary/${books[type][index]._id}`);
       console.log(res);
      } catch (error) {
       console.log(error);
@@ -236,9 +236,9 @@ const Library = () => {
           <div className="book-grid">
             {books[type].map((book, index) => (
               <div className="book-card" key={index}>
-                <img src={`http://localhost:3000/Files/${book.image}`} alt={book.title} className="book-image" />
+                <img src={`${backend_url}/Files/${book.image}`} alt={book.title} className="book-image" />
                 <h3>{book.title}</h3>
-                <a href={`http://localhost:3000/Files/${book.pdf}`} target="_blank" rel="noopener noreferrer">
+                <a href={`${backend_url}/Files/${book.pdf}`} target="_blank" rel="noopener noreferrer">
                   <b>View PDF</b>
                   {console.log(book.pdf)}
                 </a>

@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import "./Achievements.css";
 import axios from "axios";
+import { useDispatch,useSelector } from "react-redux";
 
 const AchievementsUpload = () => {
+  const {backend_url} = useSelector((state)=>state.auth);
   const [achievements, setAchievements] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
@@ -101,8 +103,8 @@ const AchievementsUpload = () => {
       // const achivement = achievements[index];
       const url =
         editIndex === null
-          ? `http://localhost:3000/api/achivement/createachievement`
-          : `http://localhost:3000/api/achivement/editachievement/${id}`;
+          ? `${backend_url}/api/achivement/createachievement`
+          : `${backend_url}/api/achivement/editachievement/${id}`;
       const response = await axios.post(
         url, // Corrected endpoint and port
         formData,
@@ -180,7 +182,7 @@ const AchievementsUpload = () => {
     console.log(id);
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/achivement/deleteachievement/${id}`,
+        `${backend_url}/api/achivement/deleteachievement/${id}`,
         {
           withCredentials: true,
         }
@@ -217,7 +219,7 @@ const AchievementsUpload = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/achivement/fetchachievement`,
+          `${backend_url}/api/achivement/fetchachievement`,
           {
             withCredentials: true,
           }
@@ -255,7 +257,7 @@ const AchievementsUpload = () => {
             <div className="achievement-images">
               {achievement.images.map((img, i) => (
                 <div className="image-container" key={i}>
-                  <img src={`http://localhost:3000/Files/${img}`} alt={`Achievement ${i}`} />
+                  <img src={`${backend_url}/Files/${img}`} alt={`Achievement ${i}`} />
                   {/* Optionally, add delete functionality for images */}
                 </div>
               ))}
