@@ -6,7 +6,7 @@ const authSlice = createSlice({
     isLoggedIn: false,
     user: null,
     isloading: false,
-    backend_url:"https://english-ashy.vercel.app",
+    backend_url:"https://english-ashy.vercel.app/",
   },
   reducers: {
     startloading: (state) => {
