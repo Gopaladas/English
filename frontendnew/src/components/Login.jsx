@@ -46,15 +46,15 @@ const LoginForm = () => {
       const response = await axios.post(
         `${backend_url}/api/admin/adminlogin`,
         logindata
-        //,
-        // {
-        //   withCredentials:true,
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     "X-Custom-Header": "YourHeaderHere", // Add custom headers if needed
-        //   },
+        ,
+        {
+          withCredentials:true,
+          headers: {
+            "Content-Type": "application/json",
+            "X-Custom-Header": "YourHeaderHere", // Add custom headers if needed
+          },
 
-        // }
+        }
         
       );
 
