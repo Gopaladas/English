@@ -33,6 +33,7 @@ app.use(
     origin: [frontendUrl], 
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "X-Custom-Header"],
   })
 );
 
