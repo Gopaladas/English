@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //app instance
 // const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
-const frontendUrl ="https://english-2sty.vercel.app/";
+const frontendUrl ="https://english-2sty.vercel.app";
 app.use(
   cors({
     origin: [frontendUrl], 
