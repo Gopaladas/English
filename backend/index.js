@@ -37,6 +37,32 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  // Set the Access-Control-Allow-Origin header to allow specific frontend domain
+  res.header("Access-Control-Allow-Origin", "https://english-2sty.vercel.app"); // Replace with your actual frontend domain
+
+  // Specify allowed methods
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+
+  // Specify allowed headers
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
+  );
+
+  // Allow credentials (cookies, authorization headers, etc.)
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  // If the request is a preflight (OPTIONS), end it quickly
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
+  // Proceed to the next middleware or route handler
+  next();
+});
+
+
 app.options('*', cors());
 
 // app.options("",cors());
