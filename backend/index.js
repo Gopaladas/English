@@ -31,7 +31,7 @@ const frontendUrl ="https://english-2sty.vercel.app";
 app.use(
   cors({
     origin: [frontendUrl], 
-    methods: ["GET", "POST", "PUT", "DELETE"], 
+    methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"], 
     allowedHeaders: ["Content-Type", "Authorization", "X-Custom-Header"],
      credentials: true,
   })
