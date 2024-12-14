@@ -31,7 +31,7 @@ const frontendUrl ="https://english-2sty.vercel.app";
 app.use(
   cors({
     origin: [frontendUrl], 
-    methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"], 
+    methods: ["GET","HEAD", "POST", "PUT", "DELETE","OPTIONS"], 
     allowedHeaders: ["Content-Type", "Authorization", "X-Custom-Header"],
      credentials: true,
   })
@@ -42,7 +42,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://english-2sty.vercel.app"); // Replace with your actual frontend domain
 
   // Specify allowed methods
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Methods", "GET,"HEAD", POST, PUT, DELETE, OPTIONS");
 
   // Specify allowed headers
   res.header(
