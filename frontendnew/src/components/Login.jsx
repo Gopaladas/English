@@ -81,15 +81,15 @@ const LoginForm = () => {
       try {
         const response = await axios.get(
           `${backend_url}/api/admin/isLoggedIn`
-        //   ,
-        //   {
-        //   withCredentials:true,
-        //     headers: {
-        //     "Content-Type": "application/json",
-        //     "X-Custom-Header": "YourHeaderHere", // Add custom headers if needed
-        //   },
+          ,
+          {
+          withCredentials:true,
+            headers: {
+            "Content-Type": "application/json",
+            "X-Custom-Header": "YourHeaderHere", // Add custom headers if needed
+          },
 
-        // }
+        }
         );
         console.log(response?.data?.user);
         // Ensure the user data is what you're expecting
@@ -112,10 +112,10 @@ const LoginForm = () => {
             // `https://english-ivory.vercel.app/api/faculty/eachfacultydetails/${response.data.user.id}`
             const res = await axios.get(
               `${backend_url}/api/faculty/eachfacultydetails/${response.data.user.id}`
-        //       ,
-        //         {
-        //   withCredentials:true
-        // }
+              ,
+                {
+          withCredentials:true
+        }
             );
             console.log(res);
             dispatch(loggedIn(res.data.user));
