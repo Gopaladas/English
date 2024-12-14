@@ -25,17 +25,17 @@ app.use(bodyParser.json());
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//app instance
-// const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
-// const frontendUrl ="https://english-2sty.vercel.app";
-// app.use(
-//   cors({
-//     origin: [frontendUrl], 
-//     methods: ["GET","HEAD", "POST", "PUT", "DELETE","OPTIONS"], 
-//     allowedHeaders: ["Content-Type", "Authorization", "X-Custom-Header"],
-//      credentials: true,
-//   })
-// );
+app instance
+const frontendUrl = "https://english-2kuj-frontend.vercel.app"; // Your frontend URL
+const frontendUrl ="https://english-2sty.vercel.app";
+app.use(
+  cors({
+    origin: [frontendUrl], 
+    methods: ["GET","HEAD", "POST", "PUT", "DELETE","OPTIONS"], 
+    allowedHeaders: ["Content-Type", "Authorization", "X-Custom-Header"],
+     credentials: true,
+  })
+);
 
 app.use((req, res, next) => {
   // Set the Access-Control-Allow-Origin header to allow specific frontend domain
