@@ -54,9 +54,9 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
 
   // If the request is a preflight (OPTIONS), end it quickly
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
-  }
+  // if (req.method === "OPTIONS") {
+  //   return res.status(204).end();
+  // }
 
   // Proceed to the next middleware or route handler
   next();
